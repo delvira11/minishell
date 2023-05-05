@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:24:31 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/05 18:21:57 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/05 18:34:33 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ char	*split_spaces(char *cmd_line, int i)
 
 	aux = ft_calloc(1000, sizeof(char));
 	j = 0;
-	while (cmd_line[i] != ' ' && cmd_line[i] != '"' && cmd_line[i] != '\'' && cmd_line[i] != '\0')
+	while (cmd_line[i] != ' ' && cmd_line[i] != '"'
+		&& cmd_line[i] != '\'' && cmd_line[i] != '\0')
 	{
 		aux[j] = cmd_line[i];
 		i++;
 		j++;
 	}
-	// printf("%s", aux);
 	return (aux);
 }
 
@@ -45,7 +45,6 @@ char	*split_double_quotes(char *cmd_line, int i)
 		j++;
 	}
 	aux[j] = '\"';
-	// printf("%s", aux);
 	return (aux);
 }
 
@@ -65,13 +64,12 @@ char	*split_simple_quotes(char *cmd_line, int i)
 		j++;
 	}
 	aux[j] = '\'';
-	// printf("%s", aux);
 	return (aux);
 }
 
 char	**linesplitted_fill(char **linesplitted, char *aux)
 {
-	int x;
+	int	x;
 
 	x = 0;
 	while (linesplitted[x])
