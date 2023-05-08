@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:33:15 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/05 18:20:47 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/08 16:28:57 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,28 +60,23 @@ void	print_history(char *history_str)
 	}
 }
 
-int	main( void )
+int	main(int nargs, char **args, char **env)
 {
 	char		*cmd_line;
-	char		*history;
-
-	history = "";
-	// char		path[1024];
-
-	// getcwd(path, 1024);
-	// printf("PATH: %s\n", path);
+	// char		*history;
+	// history = "";
+	// history = history_append(history, cmd_line);
+	// if (!ft_strncmp("history", ft_strtrim(cmd_line, " "), 5))
+	// 	print_history(history);
 	signal(SIGINT, control_c);
 	// signal(SIGQUIT, control_d);
-
+	init_global(env);
 	while (1)
 	{
 		cmd_line = readline("minishell> ");
-		// history = history_append(history, cmd_line);
-		// if (!ft_strncmp("history", ft_strtrim(cmd_line, " "), 5))
-		// 	print_history(history);
 		if (!cmd_line)
 			break ;
-		split_quotes(cmd_line);
+		parse_function(cmd_line);
 		free(cmd_line);
 		// system("leaks -q minishell");
 	}

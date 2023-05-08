@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:24:31 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/05 18:34:33 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/08 21:34:07 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,12 @@ char	**split_quotes(char *cmd_line)
 		if (cmd_line[i] == '\"')
 		{
 			aux = split_double_quotes(cmd_line, i);
-			i += ft_strlen(aux) + 1;
+			i += ft_strlen(aux);
 		}
 		else if (cmd_line[i] == '\'')
 		{
 			aux = split_simple_quotes(cmd_line, i);
-			i += ft_strlen(aux) + 1;
+			i += ft_strlen(aux);
 		}
 		else
 		{
@@ -107,5 +107,11 @@ char	**split_quotes(char *cmd_line)
 		}
 		linesplitted = linesplitted_fill(linesplitted, aux);
 	}
+	// int x = 0;
+	// while (linesplitted[x])
+	// {
+	// 	printf("\n%s\n", linesplitted[x]);
+	// 	x++;
+	// }
 	return (linesplitted);
 }
