@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_variables.c                                 :+:      :+:    :+:   */
+/*   expand_and_trim_2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:19:25 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/08 21:13:15 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:34:09 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,60 +50,50 @@ char	*find_replace(char	*str)
 		if (!ft_strncmp(env_var, aux_env[0], ft_strlen(env_var)))
 		{
 			return_replace = aux_env[1];
+			free(env_var);
+			free(aux_env[0]);
+			free(aux_env);
 			return (return_replace);
 		}
+		free_string_array(aux_env);
 		x++;
 	}
+	free(env_var);
 	return ("");
 }
 
-
-
-// ERROR CUANDO NO HAY ESPACIOS AL FINAL NO PONE LA ULTIMA COMILLA //
-
 char	*expand_dollar(char *str)
 {
-	char	*replace;
-	int		i;
-	int		j;
-	int		x;
-	char	*str_return;
-	int		n = 0;
+	t_norm_expand_var	norm;
+	t_counters			c;
 
-	i = 0;
-	x = 0;
-	str_return = ft_calloc(5000, sizeof(char));
-	replace = find_replace(str);
-	while (str[i] != '\0')
+	c = init_counters();
+	norm.str_return = ft_calloc(5000, sizeof(char));
+	norm.replace = find_replace(str);
+	while (str[c.i] != '\0')
 	{
-		if (str[i] == '$' && n == 0)
+		if (str[c.i] == '$' && c.n == 0)
 		{
-			n = 1;
-			j = i;
-			while (str[j] != ' ' && str[j] != '\0' && str[j] != '\'' && str[j] != '\"')
-				j++;
-			j -= i;
-			i += j;
-			j = 0;
-			while (replace[j] != '\0')
-				str_return[x++] = replace[j++];
-			// while (str[i - 1] == '\'')
-			// {
-			// 	str_return[x++] = '\'';
-			// 	i++;
-			// }
-			// printf("\n char: %c \n", str[i - 1]);
-			// printf("\n str_ret: %s \n", str_return);
+			c.n = 1;
+			c.j = c.i;
+			while (str[c.j] != ' ' && str[c.j] != '\0'
+				&& str[c.j] != '\'' && str[c.j] != '\"')
+				c.j++;
+			c.j -= c.i;
+			c.i += c.j;
+			c.j = 0;
+			while (norm.replace[c.j] != '\0')
+				norm.str_return[c.x++] = norm.replace[c.j++];
 		}
-		if (str[i] != '\0')
-			str_return[x++] = str[i++];
+		if (str[c.i] != '\0')
+			norm.str_return[c.x++] = str[c.i++];
 	}
-	return (str_return);
+	return (free_and_return(str, norm.replace, norm.str_return));
 }
 
 char	*multi_dollar(char	*str)
 {
-	return(expand_dollar(str));
+	return (expand_dollar(str));
 }
 
 char	*find_dollar(char *str)
@@ -121,29 +111,4 @@ char	*find_dollar(char *str)
 		i++;
 	}
 	return (str);
-}
-
-char	**expand_variables(char **linesplitted)
-{
-	int	x;
-
-	x = 0;
-	while (linesplitted[x])
-	{
-		if (linesplitted[x][0] != '\'')
-		{
-			linesplitted[x] = find_dollar(linesplitted[x]);
-		}
-		x++;
-	}
-	x = 0;
-	while (linesplitted[x])
-	{
-		if (linesplitted[x][0] == '\"')
-			linesplitted[x] = ft_strtrim(linesplitted[x], "\"");
-		else if (linesplitted[x][0] == '\'')
-			linesplitted[x] = ft_strtrim(linesplitted[x], "\'");
-		x++;
-	}
-	return (linesplitted);
 }

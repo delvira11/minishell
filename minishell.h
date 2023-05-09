@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:32:56 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/08 18:02:03 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/09 17:29:54 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,37 @@ typedef struct s_global
 
 }	t_global;
 
+typedef struct s_counters
+{
+	int	i;
+	int	x;
+	int	j;
+	int	n;
+}	t_counters;
+
+typedef struct s_norm_expand_var
+{
+	char		*replace;
+	char		*str_return;
+}	t_norm_expand_var;
+
 t_global	g_var;
 
-char	**split_quotes(char *cmd_line);
-char	**expand_variables(char **linesplitted);
-void	parse_function(char *cmd_line);
-void	init_global(char **env);
 
+
+
+char		**split_quotes(char *cmd_line);
+char		**expand_and_trim(char **linesplitted);
+void		parse_function(char *cmd_line);
+void		init_global(char **env);
+void		free_string_array(char	**strarray);
+char		*my_trim(char *s1, char *set);
+void		free_string_array(char	**strarray);
+t_counters	init_counters(void);
+char		*free_and_return(char *str, char *replace, char *str_return);
+char		*find_env_var(char	*str);
+char		*find_replace(char	*str);
+char		*expand_dollar(char *str);
+char		*multi_dollar(char	*str);
+char		*find_dollar(char *str);
 #endif
