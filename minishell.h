@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:32:56 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/09 17:29:54 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:07:18 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,15 @@ typedef struct s_norm_expand_var
 	char		*str_return;
 }	t_norm_expand_var;
 
+typedef struct s_node
+{
+	char	*infile;
+	char	*delimiter;
+	char	*outfile;
+	char	*cmd;
+}	t_node;
+
 t_global	g_var;
-
-
-
 
 char		**split_quotes(char *cmd_line);
 char		**expand_and_trim(char **linesplitted);
@@ -59,4 +64,9 @@ char		*find_replace(char	*str);
 char		*expand_dollar(char *str);
 char		*multi_dollar(char	*str);
 char		*find_dollar(char *str);
+char		**change_pipes(char **linesplitted);
+char		*array_to_single_str(char **linesplitted);
+char		**split_changed_pipes(char *str);
+void		exec_pipex(void);
+
 #endif
