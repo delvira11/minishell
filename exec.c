@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:34:07 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/11 16:15:52 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/11 18:34:56 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_node	*init_nodes(void)
 	t_node	*node;
 
 	node = ft_calloc(50, sizeof(t_node));
-	node[0].infile = NULL;
+	node[0].infile = "in";
 	node[0].delimiter = NULL;
 	node[0].outfile = "outfile";
 	node[0].cmd = "cat -e";
@@ -170,14 +170,15 @@ void	loop_process(t_node *node, char **envp, int i, int first_fd)
 	int		fd[2];
 	char	**splitedarg;
 	int		execerror;
+	int		x;
 	splitedarg = ft_split(node[i].cmd, ' ');
 	pipe(fd);
 	pid = fork();
 	if (pid == 0)
 	{
-		write(1, "hola", 4);
 		close(fd[0]);
 		dup2(get_fileout(node, i, fd[1]), STDOUT_FILENO);
+		// write(1, "\neyy", 4);
 		execerror = execve(ft_findpath(splitedarg[0], envp), splitedarg, envp);
 		if (execerror < 0)
 			printf("error cmd");
@@ -186,7 +187,7 @@ void	loop_process(t_node *node, char **envp, int i, int first_fd)
 	else
 	{
 	// write(1, "\naaa", 4);
-		write(1, "hola", 4);
+		// write(1, "hola", 4);
 		close(fd[1]);
 		dup2(get_filein(node, i, first_fd, fd[0]), STDIN_FILENO);
 		waitpid(pid, NULL, 0);
@@ -204,7 +205,7 @@ void    exec_pipex()
 	fdin = open(get_first_infile(node), O_RDONLY);
 	dup2(fdin, STDIN_FILENO);
 	// dup2(0, STDIN_FILENO);
-	close(fdin);
+	// close(fdin);
 	while (i < 3)
 	{
 		loop_process(node, g_var.env, i, fdin);

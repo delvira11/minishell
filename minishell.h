@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:32:56 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/11 16:07:18 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/11 18:12:10 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ char		*find_dollar(char *str);
 char		**change_pipes(char **linesplitted);
 char		*array_to_single_str(char **linesplitted);
 char		**split_changed_pipes(char *str);
-void		exec_pipex(void);
+void		exec_pipex();
 
 #endif

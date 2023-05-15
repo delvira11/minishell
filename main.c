@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:33:15 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/11 16:07:33 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/11 19:06:06 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,13 @@ int	main(int nargs, char **args, char **env)
 	while (1)
 	{
 		cmd_line = readline("minishell> ");
-		if (!cmd_line)
+		if (cmd_line == NULL)
 			break;
-		parse_function(cmd_line);
+		// parse_function(cmd_line);
+		exec_pipex();
+		dup2(0, STDIN_FILENO);
+		dup2(1, STDOUT_FILENO);
+		// waitpid(-1, NULL, 0);
 		free(cmd_line);
 		// system("leaks -q minishell");
 	}
