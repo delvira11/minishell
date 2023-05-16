@@ -6,13 +6,13 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 15:08:30 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/08 15:14:19 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/16 17:48:14 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_global(char **env)
-{
-	g_var.env = env;
-}
+// void	init_global(char **env)
+// {
+// 	g_var.env = env;
+// }

@@ -6,11 +6,34 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:34:07 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/11 18:34:56 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/15 20:38:35 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_builtin(char	*cmd)
+{
+	char	**splitted_cmd;
+
+	splitted_cmd = ft_split(cmd, ' ');
+	if (!ft_strncmp("echo", splitted_cmd[0], 4)
+		&& !ft_strncmp("-n", splitted_cmd[1], 2))
+		return (1);
+	else if (!ft_strncmp("cd", splitted_cmd[0], 2))
+		return (1);
+	else if (!ft_strncmp("pwd", splitted_cmd[0], 3))
+		return (1);
+	else if (!ft_strncmp("export", splitted_cmd[0], 6))
+		return (1);
+	else if (!ft_strncmp("unset", splitted_cmd[0], 5))
+		return (1);
+	else if (!ft_strncmp("env", splitted_cmd[0], 3))
+		return (1);
+	else if (!ft_strncmp("exit", splitted_cmd[0], 4))
+		return (1);
+	return (0);
+}
 
 char	*ft_get_input(char *limit, int fd1)
 {
@@ -39,24 +62,6 @@ char	*ft_get_input(char *limit, int fd1)
 	}
 	close (fd1);
 	return (line);
-}
-
-char	*get_first_infile(t_node *node)
-{
-	int	here_doc_fd;
-
-	if (node[0].infile != NULL)
-	{
-		return (node[0].infile);
-	}
-	else if (node[0].delimiter != NULL)
-	{
-		here_doc_fd = open("in_heredoc.txt", O_RDWR | O_TRUNC | O_CREAT);
-		ft_get_input(node[0].delimiter, here_doc_fd);
-		return ("in_heredoc.txt");
-	}
-	else
-		return (NULL);
 }
 
 char	*ft_findpath(char *cmd, char **envp)
@@ -88,6 +93,25 @@ char	*ft_findpath(char *cmd, char **envp)
 	return (NULL);
 }
 
+char	*get_first_infile(t_node *node)
+{
+	int	here_doc_fd;
+
+	if (node[0].infile != NULL)
+	{
+		return (node[0].infile);
+	}
+	else if (node[0].delimiter != NULL)
+	{
+		here_doc_fd = open("in_heredoc.txt", O_RDWR | O_TRUNC | O_CREAT);
+		ft_get_input(node[0].delimiter, here_doc_fd);
+		return ("in_heredoc.txt");
+	}
+	else
+		return (NULL);
+}
+
+
 
 t_node	*init_nodes(void)
 {
@@ -96,18 +120,18 @@ t_node	*init_nodes(void)
 	node = ft_calloc(50, sizeof(t_node));
 	node[0].infile = "in";
 	node[0].delimiter = NULL;
-	node[0].outfile = "outfile";
+	node[0].outfile = NULL;
 	node[0].cmd = "cat -e";
 
 	node[1].infile = NULL;
 	node[1].delimiter = NULL;
-	node[1].outfile = "outfile2";
-	node[1].cmd = "echo bbb";
+	node[1].outfile = NULL;
+	node[1].cmd = "cat -e";
 
 	node[2].infile = NULL;
 	node[2].delimiter = NULL;
-	node[2].outfile = "out";
-	node[2].cmd = "echo ccc";
+	node[2].outfile = NULL;
+	node[2].cmd = "cat -e";
 	return (node);
 }
 
@@ -164,51 +188,62 @@ int	get_fileout(t_node	*node, int i, int pip_fd)
 	}
 }
 
-void	loop_process(t_node *node, char **envp, int i, int first_fd)
+int	get_last_fileout(t_node *node, int i)
 {
-	pid_t	pid;
-	int		fd[2];
-	char	**splitedarg;
-	int		execerror;
-	int		x;
-	splitedarg = ft_split(node[i].cmd, ' ');
-	pipe(fd);
-	pid = fork();
-	if (pid == 0)
+	int	return_fd;
+
+	if (node[i].fileout != NULL)
 	{
-		close(fd[0]);
-		dup2(get_fileout(node, i, fd[1]), STDOUT_FILENO);
-		// write(1, "\neyy", 4);
-		execerror = execve(ft_findpath(splitedarg[0], envp), splitedarg, envp);
-		if (execerror < 0)
-			printf("error cmd");
-		// ft_free_split(splitedarg);
+		if ()
 	}
-	else
+}
+
+void	process_exec(t_node *node, int i, int first_fd, int max_nodes)
+{
+	int		tuberia[2];
+	pid_t	process;
+	char	**splittedarg;
+
+	splittedarg = ft_split(node[i].cmd, ' ');
+	pipe(tuberia);
+	process = fork();
+	if (process == 0)
 	{
-	// write(1, "\naaa", 4);
-		// write(1, "hola", 4);
-		close(fd[1]);
-		dup2(get_filein(node, i, first_fd, fd[0]), STDIN_FILENO);
-		waitpid(pid, NULL, 0);
+		if (i == 0)
+			dup2(first_fd, STDIN_FILENO);
+		if (i < max_nodes - 1)
+			dup2(tuberia[1], STDOUT_FILENO);
+		close(tuberia[0]);
+		close(tuberia[1]);
+		execve(ft_findpath(splittedarg[0], g_var.env), splittedarg, g_var.env);
 	}
+	waitpid(process, NULL, 0);
+	dup2(tuberia[0], STDIN_FILENO);
+	close(tuberia[0]);
+	close(tuberia[1]);
 }
 
 void    exec_pipex()
 {
 	t_node	*node;
-	int		fdin;
-	int i = 0;
-	node = init_nodes();
+	int		i;
+	int		save;
+	int		max_nodes;
+	int		first_fd;
 
-	// printf("get_first_infile: %s", get_first_infile(node));
-	fdin = open(get_first_infile(node), O_RDONLY);
-	dup2(fdin, STDIN_FILENO);
-	// dup2(0, STDIN_FILENO);
-	// close(fdin);
-	while (i < 3)
+	node = init_nodes();
+	i = 0;
+	while (node[i].cmd != NULL)
+		i++;
+	max_nodes = i;
+	i = 0;
+	save = dup(0);
+	if (node[0].infile != NULL)
+		first_fd = open(get_first_infile(node), O_RDWR);
+	while (i < max_nodes)
 	{
-		loop_process(node, g_var.env, i, fdin);
+		process_exec(node, i, first_fd, max_nodes);
 		i++;
 	}
+	dup2(save, STDIN_FILENO);
 }

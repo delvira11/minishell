@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:33:15 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/11 19:06:06 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/16 17:47:54 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,28 +63,19 @@ void	print_history(char *history_str)
 int	main(int nargs, char **args, char **env)
 {
 	char		*cmd_line;
-	// char		*history;
-	// history = "";
-	// history = history_append(history, cmd_line);
-	// if (!ft_strncmp("history", ft_strtrim(cmd_line, " "), 5))
-	// 	print_history(history);
+
 	signal(SIGINT, control_c);
 	// signal(SIGQUIT, control_d);
-	init_global(env);
+	// init_global(env);
 	while (1)
 	{
 		cmd_line = readline("minishell> ");
 		if (cmd_line == NULL)
 			break;
-		// parse_function(cmd_line);
-		exec_pipex();
-		dup2(0, STDIN_FILENO);
-		dup2(1, STDOUT_FILENO);
-		// waitpid(-1, NULL, 0);
+		parse_function(cmd_line);
 		free(cmd_line);
 		// system("leaks -q minishell");
 	}
 		write(1, "dewt", 4);
-	// free (history);
 	return (0);
 }

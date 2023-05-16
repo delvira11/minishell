@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:32:56 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/11 18:12:10 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/16 17:45:36 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
-
-typedef struct s_global
-{
-	char	**env;
-	int		dollarcount;
-
-}	t_global;
 
 typedef struct s_counters
 {
@@ -48,7 +41,14 @@ typedef struct s_node
 	char	*cmd;
 }	t_node;
 
-t_global	g_var;
+typedef struct s_fds
+{
+	int	filein;
+	int	fileout;
+	int	tub[2];
+}	t_fds;
+
+extern char	**environ;
 
 char		**split_quotes(char *cmd_line);
 char		**expand_and_trim(char **linesplitted);
