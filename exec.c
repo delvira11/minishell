@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:34:07 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/17 13:29:45 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:45:24 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ int	is_builtin(char	*cmd)
 	return (0);
 }
 
+char	*free_and_return_line(char	*line)
+{
+	free(line);
+	return (NULL);
+}
+
 char	*ft_get_input(char *limit, int fd1, int save)
 {
 	char	*line;
@@ -52,7 +58,7 @@ char	*ft_get_input(char *limit, int fd1, int save)
 		while (limit[i] != '\0')
 			i++;
 		if (ft_strncmp(line, limit, i) == 0)
-			return (NULL);
+			return (free_and_return_line(line));
 		while (line[j] != '\0')
 		{
 			write(fd1, &line[j], 1);
@@ -149,7 +155,7 @@ t_node	*init_nodes(void)
 	t_node	*node;
 
 	node = ft_calloc(50, sizeof(t_node));
-	node[0].infile = "in";
+	node[0].infile = NULL;
 	node[0].delimiter = NULL;
 	node[0].outfile = NULL;
 	node[0].outappend = NULL;
@@ -157,9 +163,9 @@ t_node	*init_nodes(void)
 
 	node[1].infile = NULL;
 	node[1].delimiter = "fin";
-	node[1].outfile = "echo bbb";
+	node[1].outfile = "out";
 	node[1].outappend = NULL;
-	node[1].cmd = "gregreg";
+	node[1].cmd = "cat -e";
 
 	node[2].infile = NULL;
 	node[2].delimiter = NULL;
@@ -207,6 +213,19 @@ void	get_last_stdout(t_node *node, int i)
 	}	
 }
 
+void	free_cmd_splitted(char	**split)
+{
+	int x;
+
+	x = 0;
+	while (split[x])
+	{
+		free(split[x]);
+		x++;
+	}
+	free(split);
+}
+
 void	process_exec(t_node *node, int i, int max_nodes, int save)
 {
 	int		tuberia[2];
@@ -226,9 +245,14 @@ void	process_exec(t_node *node, int i, int max_nodes, int save)
 			get_last_stdout(node, i);
 		close(tuberia[0]);
 		close(tuberia[1]);
-		execve(ft_findpath(splittedarg[0], environ), splittedarg, environ);
+		if (execve(ft_findpath(splittedarg[0], environ), splittedarg, environ) < 0)
+		{
+			perror("NO FUNCIONO");
+			exit(0);
+		}
 	}
 	waitpid(process, NULL, 0);
+	free_cmd_splitted(splittedarg);
 	get_next_infile(node, i, tuberia[0], save);
 	close(tuberia[0]);
 	close(tuberia[1]);
@@ -254,4 +278,5 @@ void	exec_pipex(void)
 		i++;
 	}
 	dup2(save, STDIN_FILENO);
+	free(node);
 }
