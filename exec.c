@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:34:07 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/15 20:38:35 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/17 13:29:45 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	is_builtin(char	*cmd)
 	return (0);
 }
 
-char	*ft_get_input(char *limit, int fd1)
+char	*ft_get_input(char *limit, int fd1, int save)
 {
 	char	*line;
 	int		i;
@@ -44,7 +44,7 @@ char	*ft_get_input(char *limit, int fd1)
 	line = "";
 	while (line != NULL)
 	{
-		line = ft_get_next_line(0);
+		line = ft_get_next_line(save);
 		if (!line)
 			return (0);
 		i = 0;
@@ -93,25 +93,56 @@ char	*ft_findpath(char *cmd, char **envp)
 	return (NULL);
 }
 
-char	*get_first_infile(t_node *node)
+void	get_first_infile(t_node *node, int save)
 {
 	int	here_doc_fd;
+	int	infile_fd;
 
 	if (node[0].infile != NULL)
 	{
-		return (node[0].infile);
+		infile_fd = open(node[0].infile, O_RDONLY);
+		dup2(infile_fd, STDIN_FILENO);
+		close(infile_fd);
+		return ;
 	}
 	else if (node[0].delimiter != NULL)
 	{
 		here_doc_fd = open("in_heredoc.txt", O_RDWR | O_TRUNC | O_CREAT);
-		ft_get_input(node[0].delimiter, here_doc_fd);
-		return ("in_heredoc.txt");
+		ft_get_input(node[0].delimiter, here_doc_fd, save);
+		close(here_doc_fd);
+		here_doc_fd = open("in_heredoc.txt", O_RDONLY);
+		dup2(here_doc_fd, STDIN_FILENO);
+		close(here_doc_fd);
+		return ;
 	}
-	else
-		return (NULL);
 }
 
+void	get_next_infile(t_node *node, int i, int tuberia, int save)
+{
+	int	here_doc_fd;
+	int	infile_fd;
 
+	if (node[i + 1].infile != NULL)
+	{
+		infile_fd = open(node[i + 1].infile, O_RDONLY);
+		dup2(infile_fd, STDIN_FILENO);
+		close(infile_fd);
+		return ;
+	}
+	else if (node[i + 1].delimiter != NULL)
+	{
+		here_doc_fd = open("in_heredoc.txt", O_RDWR | O_TRUNC | O_CREAT);
+		ft_get_input(node[i + 1].delimiter, here_doc_fd, save);
+		close(here_doc_fd);
+		here_doc_fd = open("in_heredoc.txt", O_RDONLY);
+		dup2(here_doc_fd, STDIN_FILENO);
+		close(here_doc_fd);
+	}
+	else
+	{
+		dup2(tuberia, STDIN_FILENO);
+	}
+}
 
 t_node	*init_nodes(void)
 {
@@ -121,84 +152,62 @@ t_node	*init_nodes(void)
 	node[0].infile = "in";
 	node[0].delimiter = NULL;
 	node[0].outfile = NULL;
-	node[0].cmd = "cat -e";
+	node[0].outappend = NULL;
+	node[0].cmd = "echo aaa";
 
 	node[1].infile = NULL;
-	node[1].delimiter = NULL;
-	node[1].outfile = NULL;
-	node[1].cmd = "cat -e";
+	node[1].delimiter = "fin";
+	node[1].outfile = "echo bbb";
+	node[1].outappend = NULL;
+	node[1].cmd = "gregreg";
 
 	node[2].infile = NULL;
 	node[2].delimiter = NULL;
 	node[2].outfile = NULL;
-	node[2].cmd = "cat -e";
+	node[2].outappend = NULL;
+	node[2].cmd = "echo ccc";
 	return (node);
 }
 
-int	get_filein(t_node	*node, int i, int first_fd, int pip_fd)
+void	get_next_stdout(t_node *node, int i, int tuberia)
 {
-	int	fd;
-	int	here_doc_fd;
+	int	fd_out;
 
-	if (i == 0)
-		return (first_fd);
-	else
-	{
-		if (node[i + 1].infile != NULL)
-		{
-			fd = open(node[i + 1].infile, O_RDONLY);
-			close(fd);
-			return (fd);
-		}
-		else if (node[i].delimiter != NULL)
-		{
-			here_doc_fd = open("in_heredoc.txt", O_RDWR | O_TRUNC | O_CREAT);
-			ft_get_input(node[0].delimiter, here_doc_fd);
-			fd = open("in_heredoc.txt", O_RDONLY);
-			return (fd);
-		}
-		else if (node[i].outfile != NULL)
-		{
-			fd = open(node[i].outfile, O_RDONLY);
-			close(fd);
-			return (fd);
-		}
-		else
-		{
-			return (pip_fd);
-		}
-	}
-}
-
-int	get_fileout(t_node	*node, int i, int pip_fd)
-{
-	int	fd;
-
-	// printf("\ni = %i", i);
-	// printf("\n outfile : %s", node[i].outfile);
 	if (node[i].outfile != NULL)
 	{
-		fd = open(node[i].outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
-		// close(fd);
-		return (fd);
+		fd_out = open(node[i].outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
+	}
+	else if (node[i].outappend != NULL)
+	{
+		fd_out = open(node[i].outappend, O_CREAT | O_RDWR | O_APPEND, 0644);
+		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
 	}
 	else
-	{
-		return (pip_fd);
-	}
+		dup2(tuberia, STDOUT_FILENO);
 }
 
-int	get_last_fileout(t_node *node, int i)
+void	get_last_stdout(t_node *node, int i)
 {
-	int	return_fd;
+	int	fd_out;
 
-	if (node[i].fileout != NULL)
+	if (node[i].outfile != NULL)
 	{
-		if ()
+		fd_out = open(node[i].outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
 	}
+	else if (node[i].outappend != NULL)
+	{
+		fd_out = open(node[i].outappend, O_CREAT | O_RDWR | O_APPEND, 0644);
+		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
+	}	
 }
 
-void	process_exec(t_node *node, int i, int first_fd, int max_nodes)
+void	process_exec(t_node *node, int i, int max_nodes, int save)
 {
 	int		tuberia[2];
 	pid_t	process;
@@ -210,26 +219,27 @@ void	process_exec(t_node *node, int i, int first_fd, int max_nodes)
 	if (process == 0)
 	{
 		if (i == 0)
-			dup2(first_fd, STDIN_FILENO);
+			get_first_infile(node, save);
 		if (i < max_nodes - 1)
-			dup2(tuberia[1], STDOUT_FILENO);
+			get_next_stdout(node, i, tuberia[1]);
+		else
+			get_last_stdout(node, i);
 		close(tuberia[0]);
 		close(tuberia[1]);
-		execve(ft_findpath(splittedarg[0], g_var.env), splittedarg, g_var.env);
+		execve(ft_findpath(splittedarg[0], environ), splittedarg, environ);
 	}
 	waitpid(process, NULL, 0);
-	dup2(tuberia[0], STDIN_FILENO);
+	get_next_infile(node, i, tuberia[0], save);
 	close(tuberia[0]);
 	close(tuberia[1]);
 }
 
-void    exec_pipex()
+void	exec_pipex(void)
 {
 	t_node	*node;
 	int		i;
 	int		save;
 	int		max_nodes;
-	int		first_fd;
 
 	node = init_nodes();
 	i = 0;
@@ -238,11 +248,9 @@ void    exec_pipex()
 	max_nodes = i;
 	i = 0;
 	save = dup(0);
-	if (node[0].infile != NULL)
-		first_fd = open(get_first_infile(node), O_RDWR);
 	while (i < max_nodes)
 	{
-		process_exec(node, i, first_fd, max_nodes);
+		process_exec(node, i, max_nodes, save);
 		i++;
 	}
 	dup2(save, STDIN_FILENO);

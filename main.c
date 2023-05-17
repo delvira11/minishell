@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:33:15 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/16 17:47:54 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/17 13:27:59 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	main(int nargs, char **args, char **env)
 			break;
 		parse_function(cmd_line);
 		free(cmd_line);
-		// system("leaks -q minishell");
+		system("leaks -q minishell");
 	}
 		write(1, "dewt", 4);
 	return (0);
