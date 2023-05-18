@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:34:07 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/17 15:45:24 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/18 17:00:34 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,14 +258,14 @@ void	process_exec(t_node *node, int i, int max_nodes, int save)
 	close(tuberia[1]);
 }
 
-void	exec_pipex(void)
+void	exec_pipex(t_node	*node)
 {
-	t_node	*node;
+	// t_node	*node;
 	int		i;
 	int		save;
 	int		max_nodes;
 
-	node = init_nodes();
+	// node = init_nodes();
 	i = 0;
 	while (node[i].cmd != NULL)
 		i++;

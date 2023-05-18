@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:32:56 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/17 18:45:46 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/18 17:01:11 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ char	*split_spaces(char *cmd_line, int i);
 char	*split_double_quotes(char *cmd_line, int i);
 char	*split_simple_quotes(char *cmd_line, int i);
 char	**linesplitted_fill(char **linesplitted, char *aux);
+t_node	*fill_list(char **linesplitted);
 
-void		exec_pipex();
+void		exec_pipex(t_node *node);
 char	**tokenize_str(char	*str);
 
 #endif
