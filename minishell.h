@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:32:56 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/18 17:01:11 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/19 18:16:49 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,14 @@ typedef struct s_fds
 	int	tub[2];
 }	t_fds;
 
-extern char	**environ;
+typedef struct s_global
+{
+	char	**env;
+	int		last_cmd_status;
+	int		fix_nextfilein;
+}	t_global;
+
+t_global	g_var;
 
 char		**split_quotes(char *cmd_line);
 char		**expand_and_trim(char **linesplitted);
@@ -68,13 +75,12 @@ char		*find_dollar(char *str);
 char		**change_pipes(char **linesplitted);
 char		*array_to_single_str(char **linesplitted);
 char		**split_changed_pipes(char *str);
-char	*split_spaces(char *cmd_line, int i);
-char	*split_double_quotes(char *cmd_line, int i);
-char	*split_simple_quotes(char *cmd_line, int i);
-char	**linesplitted_fill(char **linesplitted, char *aux);
-t_node	*fill_list(char **linesplitted);
-
+char		*split_spaces(char *cmd_line, int i);
+char		*split_double_quotes(char *cmd_line, int i);
+char		*split_simple_quotes(char *cmd_line, int i);
+char		**linesplitted_fill(char **linesplitted, char *aux);
+t_node		*fill_list(char **linesplitted);
 void		exec_pipex(t_node *node);
-char	**tokenize_str(char	*str);
+char		**tokenize_str(char	*str);
 
 #endif

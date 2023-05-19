@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:19:25 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/16 17:47:32 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/19 22:31:38 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ char	*find_replace(char	*str)
 
 	x = 0;
 	env_var = find_env_var(str);
-	while (environ[x])
+	while (g_var.env[x])
 	{
-		aux_env = ft_split(environ[x], '=');
+		aux_env = ft_split(g_var.env[x], '=');
 		if (!ft_strncmp(env_var, aux_env[0], ft_strlen(env_var)))
 		{
 			return_replace = aux_env[1];

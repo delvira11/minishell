@@ -6,11 +6,35 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 16:02:02 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/18 16:59:37 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/19 22:33:38 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_strjoin_free(char const *s1, char const *s2)
+{
+	char	*str;
+	size_t	s1len;
+	size_t	s2len;
+	size_t	i;
+
+	s1len = ft_strlen(s1);
+	s2len = ft_strlen(s2);
+	str = (char *)ft_calloc((s1len + s2len + 1), sizeof(char));
+	if (!str)
+		return (NULL);
+	ft_strlcpy(str, s1, s1len + 1);
+	i = 0;
+	while (i < s2len)
+	{
+		str[s1len + i] = s2[i];
+		i++;
+	}
+	// if (s1[0] != '\0')
+	free(s1);
+	return (str);
+}
 
 char	*split_in_token(char *cmd_line, int i)
 {
@@ -104,7 +128,6 @@ char	**tokenize_str(char	*str)
 	return (linesplitted);
 }
 
-
 t_node	fill_infile(t_node node, char	**linesplitted)
 {
 	int	x;
@@ -118,16 +141,26 @@ t_node	fill_infile(t_node node, char	**linesplitted)
 		{
 			if (linesplitted[x][1] != '<')
 			{
+				if (node.infile != NULL)
+					free(node.infile);
 				node.infile = linesplitted[x + 1];
 				if (node.delimiter != NULL)
+				{
+					free (node.delimiter);
 					node.delimiter = NULL;
+				}
 				x++;
 			}
 			else if (linesplitted[x][1] == '<')
 			{
+				if (node.delimiter != NULL)
+					free(node.delimiter);
 				node.delimiter = linesplitted[x + 1];
 				if (node.infile != NULL)
+				{
+					free (node.infile);
 					node.infile = NULL;
+				}
 				x++;
 			}
 		}
@@ -149,16 +182,26 @@ t_node	fill_outfile(t_node node, char	**linesplitted)
 		{
 			if (linesplitted[x][1] != '>')
 			{
+				if (node.outfile != NULL)
+					free(node.outfile);
 				node.outfile = linesplitted[x + 1];
 				if (node.outappend != NULL)
+				{
+					free (node.outappend);
 					node.outappend = NULL;
+				}
 				x++;
 			}
 			else if (linesplitted[x][1] == '>')
 			{
+				if (node.outappend != NULL)
+					free(node.outappend);
 				node.outappend = linesplitted[x + 1];
 				if (node.outfile != NULL)
+				{
+					free (node.outfile);
 					node.outfile = NULL;
+				}
 				x++;
 			}
 		}
@@ -173,7 +216,7 @@ t_node	fill_cmd(t_node node, char **linesplitted)
 	char	*str;
 
 	x = 0;
-	str = "";
+	str = ft_calloc(1000, sizeof(char));
 	node.cmd = NULL;
 	while (linesplitted[x])
 	{
@@ -183,13 +226,27 @@ t_node	fill_cmd(t_node node, char **linesplitted)
 		}
 		else
 		{
-			str = ft_strjoin(str, linesplitted[x]);
-			str = ft_strjoin(str, " ");
+			str = ft_strjoin_free(str, linesplitted[x]);
+			free(linesplitted[x]);
+			str = ft_strjoin_free(str, " ");
 		}
 		x++;
 	}
 	node.cmd = str;
 	return (node);
+}
+
+void free_tokenized(char	**tokenized)
+{
+	int	x;
+
+	x = 0;
+	while (tokenized[x])
+	{
+		if ((tokenized[x][0] == '<') || tokenized[x][0] == '>')
+			free(tokenized[x]);
+		x++;
+	}
 }
 
 t_node	fill_node(char	*str)
@@ -201,12 +258,9 @@ t_node	fill_node(char	*str)
 	node = fill_infile(node, tokenized_str);
 	node = fill_outfile(node, tokenized_str);
 	node = fill_cmd(node, tokenized_str);
+	free_tokenized(tokenized_str);
+	free(tokenized_str);
 	return (node);
-	// printf("infile: %s\n", node.infile);
-	// printf("delimiter: %s\n", node.delimiter);
-	// printf("cmd: %s\n", node.cmd);
-	// printf("outfile: %s\n", node.outfile);
-	// printf("outappend: %s\n", node.outappend);
 }
 
 t_node	*fill_list(char **linesplitted)

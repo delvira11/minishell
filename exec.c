@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:34:07 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/18 17:00:34 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/19 19:43:05 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char	*ft_get_input(char *limit, int fd1, int save)
 	line = "";
 	while (line != NULL)
 	{
+		write(1, ">", 1);
+		// ft_printf(">");
 		line = ft_get_next_line(save);
 		if (!line)
 			return (0);
@@ -107,6 +109,11 @@ void	get_first_infile(t_node *node, int save)
 	if (node[0].infile != NULL)
 	{
 		infile_fd = open(node[0].infile, O_RDONLY);
+		if (infile_fd < 0)
+		{
+			perror("Couldn't open infile");
+			exit(0);
+		}
 		dup2(infile_fd, STDIN_FILENO);
 		close(infile_fd);
 		return ;
@@ -128,9 +135,16 @@ void	get_next_infile(t_node *node, int i, int tuberia, int save)
 	int	here_doc_fd;
 	int	infile_fd;
 
+	g_var.fix_nextfilein = 1;
 	if (node[i + 1].infile != NULL)
 	{
 		infile_fd = open(node[i + 1].infile, O_RDONLY);
+		if (infile_fd < 0)
+		{
+			perror("Couldn't open infile");
+			g_var.fix_nextfilein = -1;
+			// exit(0);
+		}
 		dup2(infile_fd, STDIN_FILENO);
 		close(infile_fd);
 		return ;
@@ -239,15 +253,18 @@ void	process_exec(t_node *node, int i, int max_nodes, int save)
 	{
 		if (i == 0)
 			get_first_infile(node, save);
+		if (g_var.fix_nextfilein < 0)
+			exit(0);
 		if (i < max_nodes - 1)
 			get_next_stdout(node, i, tuberia[1]);
 		else
 			get_last_stdout(node, i);
 		close(tuberia[0]);
 		close(tuberia[1]);
-		if (execve(ft_findpath(splittedarg[0], environ), splittedarg, environ) < 0)
+		g_var.last_cmd_status = execve(ft_findpath(splittedarg[0], g_var.env), splittedarg, g_var.env);
+		if (g_var.last_cmd_status < 0)
 		{
-			perror("NO FUNCIONO");
+			perror("command doesn't exist");
 			exit(0);
 		}
 	}
@@ -278,5 +295,5 @@ void	exec_pipex(t_node	*node)
 		i++;
 	}
 	dup2(save, STDIN_FILENO);
-	free(node);
+	// free(node);
 }
