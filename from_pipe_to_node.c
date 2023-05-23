@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 16:02:02 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/19 22:33:38 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/23 17:51:49 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,12 +249,63 @@ void free_tokenized(char	**tokenized)
 	}
 }
 
+char	**trim_quotes(char	**tokenized_str)
+{
+	int	x;
+
+	x = 0;
+	while (tokenized_str[x])
+	{
+		if (tokenized_str[x][0] == '\"')
+		{
+			tokenized_str[x] = my_trim(tokenized_str[x], "\"");
+		}
+		else if (tokenized_str[x][0] == '\'')
+		{
+			tokenized_str[x] = my_trim(tokenized_str[x], "\'");
+		}
+		x++;
+	}
+	return (tokenized_str);
+}
+
+// int	check_redir_errors(char	**tokenized_str)
+// {
+// 	int	x;
+
+// 	x = 0;
+// 	while (tokenized_str[x])
+// 	{
+// 		if (tokenized_str[x][0] == '<')
+// 		{
+// 			if (tokenized_str[x][1] == '<' && tokenized_str[x][2] == '<')
+// 				return (-1);
+// 			else if (tokenized_str[x][1] == '<' && tokenized_str[x][2] == '>')
+// 				return (-1);
+// 			else if (tokenized_str[x][1] == '>')
+// 				return (-1);
+// 		}
+// 		else if (tokenized_str[x][0] == '>')
+// 		{
+// 			if (tokenized_str[x][1] == '>' && tokenized_str[x][2] == '>')
+// 				return (-1);
+// 			else if (tokenized_str[x][1] == '>' && tokenized_str[x][2] == '<')
+// 				return (-1);
+// 			else if (tokenized_str[x][1] == '<')
+// 				return (-1);
+// 		}
+// 		x++;
+// 	}
+// 	return (0);
+// }
+
 t_node	fill_node(char	*str)
 {
 	t_node	node;
 	char	**tokenized_str;
 
 	tokenized_str = tokenize_str(str);
+	tokenized_str = trim_quotes(tokenized_str);
 	node = fill_infile(node, tokenized_str);
 	node = fill_outfile(node, tokenized_str);
 	node = fill_cmd(node, tokenized_str);
