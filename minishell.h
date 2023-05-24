@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:32:56 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/23 17:32:11 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/24 20:00:13 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,19 @@ char		**linesplitted_fill(char **linesplitted, char *aux);
 t_node		*fill_list(char **linesplitted);
 void		exec_pipex(t_node *node);
 char		**tokenize_str(char	*str);
+int     exec_builtins(char	*cmd);
+void    exec_cd(char	*cmd);
+char    *get_home_path(void);
+char    *cd_back(void);
+int     exec_pwd(void);
+void    cd_2args(char **cmd);
+void    *cd_full_path(char **cmd);
+void    cd_folder(char **cmd);
+int			exec_builtins_env(char	*cmd);
+void	exec_env(void);
+void	exec_export(char	*cmd);
+void	exec_unset(char	*cmd);
+void	exec_echo(char	*cmd);
+void	exec_exit(void);
 
 #endif

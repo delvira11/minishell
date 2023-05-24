@@ -3,7 +3,7 @@ NAME=minishell
 LIBFTA=libft/libft.a
 CFLAGS= -Wall -Wextra
 LIBRARIES= -lreadline
-SRC= main.c split_quotes.c parsing.c expand_and_trim_1.c expand_and_trim_2.c expand_and_trim_utils.c main_utils.c change_pipes.c exec.c from_pipe_to_node.c
+SRC= main.c split_quotes.c parsing.c expand_and_trim_1.c expand_and_trim_2.c expand_and_trim_utils.c main_utils.c change_pipes.c exec.c from_pipe_to_node.c builtins.c
 OBJ=$(SRC:.c=.o)
 
 

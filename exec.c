@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:34:07 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/19 19:43:05 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:58:44 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,32 @@
 
 int	is_builtin(char	*cmd)
 {
-	char	**splitted_cmd;
+	if (!ft_strncmp("echo ", cmd, 5))
+		return (1);
+	else if (!ft_strncmp("cd ", cmd, 3))
+		return (1);
+	else if (!ft_strncmp("pwd ", cmd, 4))
+		return (1);
+	else if (!ft_strncmp("export ", cmd, 7))
+		return (1);
+	else if (!ft_strncmp("unset ", cmd, 6))
+		return (1);
+	else if (!ft_strncmp("env ", cmd, 4))
+		return (1);
+	else if (!ft_strncmp("exit ", cmd, 5))
+		return (1);
+	return (0);
+}
 
-	splitted_cmd = ft_split(cmd, ' ');
-	if (!ft_strncmp("echo", splitted_cmd[0], 4)
-		&& !ft_strncmp("-n", splitted_cmd[1], 2))
+int	is_builtin_env(char	*cmd)
+{
+	if (!ft_strncmp("cd", cmd, 2))
 		return (1);
-	else if (!ft_strncmp("cd", splitted_cmd[0], 2))
+	if (!ft_strncmp("export", cmd, 6))
 		return (1);
-	else if (!ft_strncmp("pwd", splitted_cmd[0], 3))
+	if (!ft_strncmp("unset", cmd, 5))
 		return (1);
-	else if (!ft_strncmp("export", splitted_cmd[0], 6))
-		return (1);
-	else if (!ft_strncmp("unset", splitted_cmd[0], 5))
-		return (1);
-	else if (!ft_strncmp("env", splitted_cmd[0], 3))
-		return (1);
-	else if (!ft_strncmp("exit", splitted_cmd[0], 4))
+	if (!ft_strncmp("exit", cmd, 4))
 		return (1);
 	return (0);
 }
@@ -261,14 +270,24 @@ void	process_exec(t_node *node, int i, int max_nodes, int save)
 			get_last_stdout(node, i);
 		close(tuberia[0]);
 		close(tuberia[1]);
+		if (is_builtin(node[i].cmd))
+		{
+			exec_builtins(node[i].cmd);
+			exit(0);
+		}
+		else
+		{
 		g_var.last_cmd_status = execve(ft_findpath(splittedarg[0], g_var.env), splittedarg, g_var.env);
 		if (g_var.last_cmd_status < 0)
 		{
 			perror("command doesn't exist");
 			exit(0);
 		}
+		}
 	}
 	waitpid(process, NULL, 0);
+	if (is_builtin_env(node[i].cmd))
+		exec_builtins_env(node[i].cmd);
 	free_cmd_splitted(splittedarg);
 	get_next_infile(node, i, tuberia[0], save);
 	close(tuberia[0]);

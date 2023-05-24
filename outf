@@ -26,4 +26,4 @@ HOMEBREW_CACHE=/tmp/delvira-/Homebrew/Caches
 HOMEBREW_TEMP=/tmp/delvira-/Homebrew/Temp
 C_INCLUDE_PATH=/Users/delvira-/.brew/include:
 LIBRARY_PATH=/Users/delvira-/.brew/lib:
-_=/usr/bin/env
+_=/Users/delvira-/cursus/minishell/./minishell

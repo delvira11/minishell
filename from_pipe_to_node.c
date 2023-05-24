@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 16:02:02 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/23 17:51:49 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:28:18 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strjoin_free(char const *s1, char const *s2)
 
 	s1len = ft_strlen(s1);
 	s2len = ft_strlen(s2);
-	str = (char *)ft_calloc((s1len + s2len + 1), sizeof(char));
+	str = (char *)ft_calloc((s1len + s2len + 5), sizeof(char));
 	if (!str)
 		return (NULL);
 	ft_strlcpy(str, s1, s1len + 1);
