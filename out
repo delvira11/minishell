@@ -1,29 +1,5 @@
-TERM_SESSION_ID=w0t0p0:41EC29F4-EE6A-4C7D-991B-A2CCF85FCC36
-SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.4ofTFn0vgP/Listeners
-LC_TERMINAL_VERSION=3.4.15
-COLORFGBG=7;0
-ITERM_PROFILE=Default
-XPC_FLAGS=0x0
-LANG=en_US.UTF-8
-PWD=/Users/delvira-/cursus/minishell
-SHELL=/bin/zsh
-TERM_PROGRAM_VERSION=3.4.15
-TERM_PROGRAM=iTerm.app
-PATH=/Users/delvira-/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:/usr/local/munki:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands
-LC_TERMINAL=iTerm2
-COLORTERM=truecolor
-TERM=xterm-256color
-HOME=/Users/delvira-
-TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000ccvm00336x/T/
-USER=delvira-
-XPC_SERVICE_NAME=0
-LOGNAME=delvira-
-ITERM_SESSION_ID=w0t0p0:41EC29F4-EE6A-4C7D-991B-A2CCF85FCC36
-__CF_USER_TEXT_ENCODING=0x0:0:0
-SHLVL=1
-OLDPWD=/Users/delvira-/cursus
-HOMEBREW_CACHE=/tmp/delvira-/Homebrew/Caches
-HOMEBREW_TEMP=/tmp/delvira-/Homebrew/Temp
-C_INCLUDE_PATH=/Users/delvira-/.brew/include:
-LIBRARY_PATH=/Users/delvira-/.brew/lib:
-_=/usr/bin/env
+aaa
+leaks Report Version: 4.0
+Process 88769: 442 nodes malloced for 376 KB
+Process 88769: 0 leaks for 0 total leaked bytes.
+

@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:28:15 by ide-albe          #+#    #+#             */
-/*   Updated: 2023/05/24 20:08:37 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:56:17 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,13 @@ void	change_env_var(char	*name, char	*value)
 	{
 		if (!ft_strncmp(g_var.env[x], name, ft_strlen(name)))
 		{
-			// free (environ[x]);
 			str = ft_strjoin(name, value);
+			free(g_var.env[x]);
 			g_var.env[x] = str;
 		}
 		x++;
 	}
+	// free(str);
 }
 
 void	cd_back_redir(char **cmd)
@@ -67,7 +68,7 @@ void	cd_back_redir(char **cmd)
 
 	i = 3;
 	j = 0;
-	next_path = malloc(1000 * sizeof(char));
+	next_path = ft_calloc(1000, sizeof(char));
 	prev_path = cd_back();
 	while (cmd[1][i] != '\0')
 	{
@@ -77,8 +78,11 @@ void	cd_back_redir(char **cmd)
 	}
 	chdir(prev_path);
 	chdir(next_path);
+	free(next_path);
 	next_path = getcwd(cwd, 1000);
 	change_env_var("PWD=", next_path);
+	free(prev_path);
+	
 }
 
 void	cd_folder(char **cmd)
@@ -110,21 +114,38 @@ void	cd_folder(char **cmd)
 	next_path = ft_strjoin(pwd, cmd[1]);
 	if (chdir(next_path) >= 0)
 		change_env_var("PWD=", next_path);
+	free(next_path);
+	free (pwd);
 }
 
 void	cd_2args(char **cmd)
 {
+	char 	*diractual;
+	char	cwd[1000];
+
+	diractual = getcwd(cwd, 1000);
 	if (ft_strncmp(cmd[1], "../", 3) == 0)
 		cd_back_redir(cmd);
 	else if (ft_strncmp(cmd[1], "..\0", 3) == 0)
-		cd_back();
+		cd_back_noret();
 	else if (ft_strncmp(cmd[1], "/", 1) == 0)
 	{
-		if (chdir(cmd[1]) >= 0)
+		if (chdir(cmd[1]) >= 0 && ft_strncmp(diractual, "PWD=/", 5))
 			change_env_var("PWD=", cmd[1]);
+		g_var.exit_code = "0";
+	}
+	else if ((ft_strncmp(cmd[1], ".", 1)) == 0)
+	{
+		free (cmd[1]);
+		free(cmd);
+		g_var.exit_code = "0";
+		return ;
 	}
 	else
 		cd_folder(cmd);
+		free (cmd[1]);
+		free(cmd);
+		g_var.exit_code = "0";
 }
 
 void	exec_cd(char *cmd)
@@ -141,6 +162,8 @@ void	exec_cd(char *cmd)
 	if (x > 2)
 	{
 		ft_printf("Error de argumentos. Intenta: cd [directorio]\n");
+		free_string_array(new_cmd);
+		free(home);
 		return ;
 	}
 	if (!new_cmd[1])
@@ -150,6 +173,10 @@ void	exec_cd(char *cmd)
 	}
 	else if (new_cmd[0] && new_cmd[1])
 		cd_2args(new_cmd);
+	free(new_cmd[0]);
+	if (!new_cmd[1])
+		free(new_cmd);
+	free(home);
 }
 
 char	*get_home_path(void)
@@ -214,6 +241,41 @@ char	*cd_back(void)
 	return (prev_path);
 }
 
+void	cd_back_noret(void)
+{
+	int		i;
+	int		x;
+	int		k;
+	int		j;
+	char	*prev_path;
+
+	i = 0;
+	x = 0;
+	k = 0;
+	j = 4;
+	prev_path = ft_calloc(1000, sizeof(char));
+	while (g_var.env[x])
+	{
+		if (ft_strncmp(g_var.env[x], "PWD=", 4) == 0)
+		{
+			if (ft_strncmp(g_var.env[x], "PWD=/\0", 6) == 0)
+			{
+				free(prev_path);
+				return ;
+			}
+			i = ft_strlen(g_var.env[x]) - 2;
+			while (g_var.env[x][i] != '/')
+				i--;
+			while (j != i + 1)
+				prev_path[k++] = g_var.env[x][j++];
+		}
+		x++;
+	}
+	if (chdir(prev_path) >= 0)
+		change_env_var("PWD=", prev_path);
+	free(prev_path);
+}
+
 int		exec_pwd(void)
 {
 	char	cwd[1000];
@@ -253,7 +315,7 @@ void	exec_echo(char	*cmd)
 		}
 			write(1, "\n", 1);
 	}
-	free(split_cmd);
+	free_string_array(split_cmd);
 }
 
 void	exec_exit(void)

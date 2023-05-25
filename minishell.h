@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:32:56 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/24 20:00:13 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:42:26 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_global
 	int		last_cmd_status;
 	int		fix_nextfilein;
 	int		fix_redir_error;
+	char	*exit_code;
 }	t_global;
 
 t_global	g_var;
@@ -97,5 +98,7 @@ void	exec_export(char	*cmd);
 void	exec_unset(char	*cmd);
 void	exec_echo(char	*cmd);
 void	exec_exit(void);
+void	cd_back_noret(void);
+char	*ft_strjoin_free(char const *s1, char const *s2);
 
 #endif

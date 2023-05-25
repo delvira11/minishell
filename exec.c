@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:34:07 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/24 19:58:44 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/25 19:10:14 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,7 @@ void	process_exec(t_node *node, int i, int max_nodes, int save)
 	int		tuberia[2];
 	pid_t	process;
 	char	**splittedarg;
+	int		*status;
 
 	splittedarg = ft_split(node[i].cmd, ' ');
 	pipe(tuberia);
@@ -278,6 +279,7 @@ void	process_exec(t_node *node, int i, int max_nodes, int save)
 		else
 		{
 		g_var.last_cmd_status = execve(ft_findpath(splittedarg[0], g_var.env), splittedarg, g_var.env);
+		ft_printf("status:%i\n", g_var.last_cmd_status);
 		if (g_var.last_cmd_status < 0)
 		{
 			perror("command doesn't exist");
@@ -285,7 +287,11 @@ void	process_exec(t_node *node, int i, int max_nodes, int save)
 		}
 		}
 	}
-	waitpid(process, NULL, 0);
+	waitpid(process, &status, 0);
+	if (g_var.last_cmd_status < 0)
+		g_var.exit_code = "127";
+	else
+		g_var.exit_code = "0";
 	if (is_builtin_env(node[i].cmd))
 		exec_builtins_env(node[i].cmd);
 	free_cmd_splitted(splittedarg);
