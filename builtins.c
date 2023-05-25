@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:28:15 by ide-albe          #+#    #+#             */
-/*   Updated: 2023/05/25 18:56:17 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/25 20:21:10 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ void	cd_folder(char **cmd)
 	next_path = ft_strjoin(pwd, cmd[1]);
 	if (chdir(next_path) >= 0)
 		change_env_var("PWD=", next_path);
+	else
+		g_var.exit_code = "1";
 	free(next_path);
 	free (pwd);
 }
@@ -131,8 +133,13 @@ void	cd_2args(char **cmd)
 	else if (ft_strncmp(cmd[1], "/", 1) == 0)
 	{
 		if (chdir(cmd[1]) >= 0 && ft_strncmp(diractual, "PWD=/", 5))
+		{
 			change_env_var("PWD=", cmd[1]);
-		g_var.exit_code = "0";
+			write (1, "holaaa", 5);
+			g_var.exit_code = "0";
+		}
+		else
+			g_var.exit_code = "1";
 	}
 	else if ((ft_strncmp(cmd[1], ".", 1)) == 0)
 	{
@@ -145,7 +152,6 @@ void	cd_2args(char **cmd)
 		cd_folder(cmd);
 		free (cmd[1]);
 		free(cmd);
-		g_var.exit_code = "0";
 }
 
 void	exec_cd(char *cmd)

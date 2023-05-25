@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:34:07 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/25 19:10:14 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/25 20:25:43 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,7 @@ void	process_exec(t_node *node, int i, int max_nodes, int save)
 	int		tuberia[2];
 	pid_t	process;
 	char	**splittedarg;
-	int		*status;
+	int		error;
 
 	splittedarg = ft_split(node[i].cmd, ' ');
 	pipe(tuberia);
@@ -279,17 +279,21 @@ void	process_exec(t_node *node, int i, int max_nodes, int save)
 		else
 		{
 		g_var.last_cmd_status = execve(ft_findpath(splittedarg[0], g_var.env), splittedarg, g_var.env);
-		ft_printf("status:%i\n", g_var.last_cmd_status);
 		if (g_var.last_cmd_status < 0)
 		{
 			perror("command doesn't exist");
-			exit(0);
+			exit(-1);
 		}
 		}
 	}
-	waitpid(process, &status, 0);
-	if (g_var.last_cmd_status < 0)
+	error = errno;
+	waitpid(process, &error, 0);
+	if (error == 14 || error == 65280)
 		g_var.exit_code = "127";
+	else if (error == 256)
+		g_var.exit_code = "1";
+	else if (error != 0 && !(error == 14 || error == 65280 || error == 256))
+		g_var.exit_code = "1";
 	else
 		g_var.exit_code = "0";
 	if (is_builtin_env(node[i].cmd))

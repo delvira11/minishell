@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:33:15 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/25 18:55:28 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/25 20:30:03 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	exec_env(void)
 			printf("%s\n", g_var.env[x]);
 		x++;
 	}
+	g_var.exit_code = "0";
 }
 
 void	exec_export(char	*cmd)
@@ -118,7 +119,7 @@ void	exec_export(char	*cmd)
 		x++;
 	if (x > 2)
 	{
-		printf("arguments error\n");
+		// printf("arguments error\n");
 		free_string_array(var_name_split);
 		free(varnameigual);
 		free_string_array(var);
@@ -184,7 +185,7 @@ char	*path()
 {
 	int		i;
 	int		k;
-	char	*cwd[1000];
+	char	cwd[1000];
 	char	*pwd;
 	char	*lastpath;
 
@@ -280,7 +281,7 @@ int	main(int nargs, char **args, char **env)
 		parse_function(cmd_line);
 		free(cmd_line);
 		free(lastpath);
-		ft_leaks();
+		// ft_leaks();
 	}
 	return (0);
 }

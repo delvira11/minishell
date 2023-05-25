@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:32:56 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/25 18:42:26 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/25 19:34:44 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
+#include <errno.h>
 
 typedef struct s_counters
 {
