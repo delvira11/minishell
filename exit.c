@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_and_trim_1.c                                :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/09 16:04:59 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 17:10:30 by delvira-         ###   ########.fr       */
+/*   Created: 2023/05/18 18:28:15 by ide-albe          #+#    #+#             */
+/*   Updated: 2023/05/26 20:53:44 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**expand_and_trim(char **linesplitted)
+void	exec_exit(void)
 {
-	int	x;
-
-	x = 0;
-	while (linesplitted[x])
-	{
-		if (linesplitted[x][0] != '\'')
-		{
-			linesplitted[x] = find_dollar(linesplitted[x]);
-		}
-		x++;
-	}
-	return (linesplitted);
+	exit(0);
 }

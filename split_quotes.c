@@ -6,112 +6,46 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:24:31 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/09 19:07:58 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/05/26 17:07:55 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*split_spaces(char *cmd_line, int i)
+t_quotes	norm_init_var_quotes(void)
 {
-	char	*aux;
-	int		j;
+	t_quotes	q_var;
 
-	aux = ft_calloc(1000, sizeof(char));
-	j = 0;
-	while (cmd_line[i] != ' ' && cmd_line[i] != '"'
-		&& cmd_line[i] != '\'' && cmd_line[i] != '\0')
-	{
-		aux[j] = cmd_line[i];
-		i++;
-		j++;
-	}
-	return (aux);
-}
-
-char	*split_double_quotes(char *cmd_line, int i)
-{
-	char	*aux;
-	int		j;
-
-	aux = ft_calloc(1000, sizeof(char));
-	j = 1;
-	i++;
-	aux[0] = '\"';
-	while (cmd_line[i] != '\"')
-	{
-		aux[j] = cmd_line[i];
-		i++;
-		j++;
-	}
-	aux[j] = '\"';
-	return (aux);
-}
-
-char	*split_simple_quotes(char *cmd_line, int i)
-{
-	char	*aux;
-	int		j;
-
-	aux = ft_calloc(1000, sizeof(char));
-	j = 1;
-	i++;
-	aux[0] = '\'';
-	while (cmd_line[i] != '\'')
-	{
-		aux[j] = cmd_line[i];
-		i++;
-		j++;
-	}
-	aux[j] = '\'';
-	return (aux);
-}
-
-char	**linesplitted_fill(char **linesplitted, char *aux)
-{
-	int	x;
-
-	x = 0;
-	while (linesplitted[x])
-		x++;
-	linesplitted[x] = aux;
-	return (linesplitted);
+	q_var.i = 0;
+	q_var.linesplitted = ft_calloc(1000, sizeof(char *));
+	return (q_var);
 }
 
 char	**split_quotes(char *cmd_line)
 {
-	char	**linesplitted;
-	char	*aux;
-	int		i;
+	t_quotes	q_var;
 
-	i = 0;
-	linesplitted = ft_calloc(1000, sizeof(char *));
-	while (cmd_line[i] != '\0')
+	q_var = norm_init_var_quotes();
+	while (cmd_line[q_var.i] != '\0')
 	{
-		while (cmd_line[i] == ' ')
-			i++;
-		if (cmd_line[i] == '\"')
+		while (cmd_line[q_var.i] == ' ')
+			q_var.i++;
+		if (cmd_line[q_var.i] == '\"')
 		{
-			aux = split_double_quotes(cmd_line, i);
-			i += ft_strlen(aux);
+			q_var.aux = split_double_quotes(cmd_line, q_var.i);
+			q_var.i += ft_strlen(q_var.aux);
 		}
-		else if (cmd_line[i] == '\'')
+		else if (cmd_line[q_var.i] == '\'')
 		{
-			aux = split_simple_quotes(cmd_line, i);
-			i += ft_strlen(aux);
+			q_var.aux = split_simple_quotes(cmd_line, q_var.i);
+			q_var.i += ft_strlen(q_var.aux);
 		}
 		else
 		{
-			aux = split_spaces(cmd_line, i);
-			i += ft_strlen(aux);
+			q_var.aux = split_spaces(cmd_line, q_var.i);
+			q_var.i += ft_strlen(q_var.aux);
 		}
-		linesplitted = linesplitted_fill(linesplitted, aux);
+		q_var.linesplitted = linesplitted_fill(q_var.linesplitted, q_var.aux);
 	}
-	// int x = 0;
-	// while (linesplitted[x])
-	// {
-	// 	printf("\n%s\n", linesplitted[x]);
-	// 	x++;
-	// }
-	return (linesplitted);
+	return (q_var.linesplitted);
 }

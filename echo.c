@@ -1,29 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_and_trim_1.c                                :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/09 16:04:59 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 17:10:30 by delvira-         ###   ########.fr       */
+/*   Created: 2023/05/26 20:51:22 by delvira-          #+#    #+#             */
+/*   Updated: 2023/05/26 20:51:42 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**expand_and_trim(char **linesplitted)
+void	exec_echo(char	*cmd)
 {
-	int	x;
+	int		i;
+	char	**split_cmd;
 
-	x = 0;
-	while (linesplitted[x])
+	i = 0;
+	split_cmd = ft_split(cmd, ' ');
+	if (ft_strncmp(split_cmd[1], "-n", 2) == 0)
 	{
-		if (linesplitted[x][0] != '\'')
+		i = 8;
+		while (cmd[i + 2] != '\0')
 		{
-			linesplitted[x] = find_dollar(linesplitted[x]);
+			write(1, &cmd[i], 1);
+			i++;
 		}
-		x++;
 	}
-	return (linesplitted);
+	else
+	{
+		i = 5;
+		while (cmd[i + 2] != '\0')
+		{
+			write(1, &cmd[i], 1);
+			i++;
+		}
+		write(1, "\n", 1);
+	}
+	free_string_array(split_cmd);
 }

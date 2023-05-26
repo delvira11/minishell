@@ -1,29 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_and_trim_1.c                                :+:      :+:    :+:   */
+/*   tokenize_str_utils_2.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/09 16:04:59 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 17:10:30 by delvira-         ###   ########.fr       */
+/*   Created: 2023/05/26 18:42:39 by delvira-          #+#    #+#             */
+/*   Updated: 2023/05/26 19:00:07 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**expand_and_trim(char **linesplitted)
+void	free_tokenized(char	**tokenized)
 {
 	int	x;
 
 	x = 0;
-	while (linesplitted[x])
+	while (tokenized[x])
 	{
-		if (linesplitted[x][0] != '\'')
+		if ((tokenized[x][0] == '<') || tokenized[x][0] == '>')
+			free(tokenized[x]);
+		x++;
+	}
+}
+
+char	**trim_quotes(char	**tokenized_str)
+{
+	int	x;
+
+	x = 0;
+	while (tokenized_str[x])
+	{
+		if (tokenized_str[x][0] == '\"')
 		{
-			linesplitted[x] = find_dollar(linesplitted[x]);
+			tokenized_str[x] = my_trim(tokenized_str[x], "\"");
+		}
+		else if (tokenized_str[x][0] == '\'')
+		{
+			tokenized_str[x] = my_trim(tokenized_str[x], "\'");
 		}
 		x++;
 	}
-	return (linesplitted);
+	return (tokenized_str);
 }

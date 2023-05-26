@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_and_trim_1.c                                :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/09 16:04:59 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 17:10:30 by delvira-         ###   ########.fr       */
+/*   Created: 2023/05/26 16:32:51 by delvira-          #+#    #+#             */
+/*   Updated: 2023/05/26 16:33:10 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**expand_and_trim(char **linesplitted)
+void	exec_unset(char	*cmd)
 {
-	int	x;
+	int		x;
+	char	**var;
+	char	*var_name;
 
 	x = 0;
-	while (linesplitted[x])
+	var = ft_split(cmd, ' ');
+	var_name = ft_strjoin(var[1], "=");
+	while (g_var.env[x])
 	{
-		if (linesplitted[x][0] != '\'')
+		if (ft_strncmp(g_var.env[x], var_name, ft_strlen(var_name)) == 0)
 		{
-			linesplitted[x] = find_dollar(linesplitted[x]);
+			free(g_var.env[x]);
+			g_var.env[x] = "NULL";
 		}
 		x++;
 	}
-	return (linesplitted);
+	free_string_array(var);
+	free(var_name);
 }

@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_and_trim_1.c                                :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/09 16:04:59 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 17:10:30 by delvira-         ###   ########.fr       */
+/*   Created: 2023/05/26 16:21:06 by delvira-          #+#    #+#             */
+/*   Updated: 2023/05/26 16:22:00 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**expand_and_trim(char **linesplitted)
+void	exec_env(void)
 {
 	int	x;
 
 	x = 0;
-	while (linesplitted[x])
+	while (g_var.env[x])
 	{
-		if (linesplitted[x][0] != '\'')
-		{
-			linesplitted[x] = find_dollar(linesplitted[x]);
-		}
+		if (ft_strncmp(g_var.env[x], "NULL", 4) != 0)
+			printf("%s\n", g_var.env[x]);
 		x++;
 	}
-	return (linesplitted);
+	g_var.exit_code = "0";
 }

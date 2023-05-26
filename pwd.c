@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_and_trim_1.c                                :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/09 16:04:59 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 17:10:30 by delvira-         ###   ########.fr       */
+/*   Created: 2023/05/26 20:52:27 by delvira-          #+#    #+#             */
+/*   Updated: 2023/05/26 20:52:54 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**expand_and_trim(char **linesplitted)
+int	exec_pwd(void)
 {
-	int	x;
+	char	cwd[1000];
 
-	x = 0;
-	while (linesplitted[x])
+	if (getcwd(cwd, 1000))
 	{
-		if (linesplitted[x][0] != '\'')
-		{
-			linesplitted[x] = find_dollar(linesplitted[x]);
-		}
-		x++;
+		ft_putendl_fd(cwd, 1);
+		return (1);
 	}
-	return (linesplitted);
+	else
+		return (-1);
 }
