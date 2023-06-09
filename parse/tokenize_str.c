@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 18:40:03 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 18:59:36 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:50:24 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	**tokenize_str(char	*str)
 	t_tok_var	var;
 
 	var.i = 0;
-	linesplitted = ft_calloc(1000, sizeof(char *));
+	linesplitted = ft_calloc(malloc_size(), sizeof(char *));
 	while (str[var.i] != '\0')
 	{
 		while (str[var.i] == ' ')

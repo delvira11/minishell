@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 20:49:14 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 20:50:04 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:42:03 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*cd_back(void)
 	c.x = 0;
 	c.k = 0;
 	c.j = 4;
-	prev_path = ft_calloc(1000, sizeof(char));
+	prev_path = ft_calloc(malloc_size(), sizeof(char));
 	while (g_var.env[c.x])
 	{
 		if (ft_strncmp(g_var.env[c.x], "PWD=", 4) == 0)
@@ -58,7 +58,7 @@ void	cd_back_noret(void)
 	char		*prev_path;
 
 	c = cd_back_noret_counters();
-	prev_path = ft_calloc(1000, sizeof(char));
+	prev_path = ft_calloc(malloc_size(), sizeof(char));
 	while (g_var.env[c.x])
 	{
 		if (ft_strncmp(g_var.env[c.x], "PWD=", 4) == 0)

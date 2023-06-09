@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 18:41:22 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 18:42:10 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:50:11 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*split_in_token(char *cmd_line, int i)
 	char	*aux;
 	int		j;
 
-	aux = ft_calloc(1000, sizeof(char));
+	aux = ft_calloc(malloc_size(), sizeof(char));
 	j = 0;
 	while (cmd_line[i] == '<')
 	{
@@ -56,7 +56,7 @@ char	*split_out_token(char *cmd_line, int i)
 	char	*aux;
 	int		j;
 
-	aux = ft_calloc(1000, sizeof(char));
+	aux = ft_calloc(malloc_size(), sizeof(char));
 	j = 0;
 	while (cmd_line[i] == '>')
 	{
@@ -72,7 +72,7 @@ char	*split_spaces_new(char *cmd_line, int i)
 	char	*aux;
 	int		j;
 
-	aux = ft_calloc(1000, sizeof(char));
+	aux = ft_calloc(malloc_size(), sizeof(char));
 	j = 0;
 	while (cmd_line[i] != ' ' && cmd_line[i] != '"'
 		&& cmd_line[i] != '\'' && cmd_line[i] != '\0'

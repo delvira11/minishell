@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:24:31 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 17:07:55 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:49:42 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_quotes	norm_init_var_quotes(void)
 	t_quotes	q_var;
 
 	q_var.i = 0;
-	q_var.linesplitted = ft_calloc(1000, sizeof(char *));
+	q_var.linesplitted = ft_calloc(malloc_size(), sizeof(char *));
 	return (q_var);
 }
 

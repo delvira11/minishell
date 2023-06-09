@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 16:02:02 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 21:12:57 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:47:39 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_node	fill_cmd(t_node node, char **linesplitted)
 
 	free(node.cmd);
 	x = 0;
-	str = ft_calloc(1000, sizeof(char));
+	str = ft_calloc(malloc_size(), sizeof(char));
 	node.cmd = NULL;
 	while (linesplitted[x])
 	{
@@ -44,7 +44,7 @@ t_node	fill_node(char	*str)
 	t_node	node;
 	char	**tokenized_str;
 
-	node.cmd = ft_calloc(100, sizeof(char));
+	node.cmd = ft_calloc(malloc_size(), sizeof(char));
 	tokenized_str = tokenize_str(str);
 	tokenized_str = trim_quotes(tokenized_str);
 	node = fill_infile(node, tokenized_str);
@@ -61,7 +61,7 @@ t_node	*fill_list(char **linesplitted)
 	int		x;
 
 	x = 0;
-	node = ft_calloc(50, sizeof(t_node));
+	node = ft_calloc(malloc_size(), sizeof(t_node));
 	while (linesplitted[x])
 	{
 		node[x] = fill_node(linesplitted[x]);

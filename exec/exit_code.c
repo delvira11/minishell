@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:34:22 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 16:35:22 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:45:35 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	create_exit_code(void)
 	i = 0;
 	while (g_var.env[x])
 		x++;
-	str = ft_calloc(1000, sizeof(char));
+	str = ft_calloc(malloc_size(), sizeof(char));
 	str[0] = '?';
 	str[1] = '=';
 	str[2] = '0';
@@ -44,7 +44,7 @@ void	replace_exit_code(void)
 		if (ft_strncmp(g_var.env[x], "?=", 2) == 0)
 		{
 			free(g_var.env[x]);
-			str = ft_calloc(1000, sizeof(char));
+			str = ft_calloc(malloc_size(), sizeof(char));
 			str[0] = '?';
 			str[1] = '=';
 			while (g_var.exit_code[j])

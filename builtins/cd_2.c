@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 20:46:57 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 20:54:40 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:41:35 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*get_home_path(void)
 
 	c.x = 0;
 	c.i = 0;
-	home_path = malloc (1000 * sizeof(char));
+	home_path = ft_calloc (malloc_size(), sizeof(char));
 	while (g_var.env[c.x])
 	{
 		if (ft_strncmp(g_var.env[c.x], "HOME=", 5) == 0)

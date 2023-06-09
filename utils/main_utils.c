@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 15:08:30 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 16:37:48 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:00:40 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ char	**init_env(char	**env)
 	int		i;
 
 	x = 0;
-	environ = ft_calloc(1000, sizeof (char *));
+	environ = ft_calloc(malloc_size(), sizeof (char *));
 	while (env[x])
 	{
 		i = 0;
-		str = ft_calloc(1000, sizeof(char));
+		str = ft_calloc(malloc_size(), sizeof(char));
 		while (env[x][i] != '\0')
 		{
 			str[i] = env[x][i];
@@ -47,7 +47,7 @@ char	*path(void)
 	k = 0;
 	pwd = getcwd(cwd, 1000);
 	i = 0;
-	lastpath = ft_calloc(100, sizeof(char));
+	lastpath = ft_calloc(malloc_size(), sizeof(char));
 	while (pwd[i])
 		i++;
 	while (pwd[i] != '/')
@@ -63,4 +63,9 @@ char	*path(void)
 	lastpath[k + 1] = '>';
 	lastpath[k + 2] = ' ';
 	return (lastpath);
+}
+
+int	malloc_size(void)
+{
+	return (1000);
 }

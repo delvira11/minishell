@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 19:38:07 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 19:38:34 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:27:18 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ void	get_first_infile(t_node *node, int save)
 	}
 	else if (node[0].delimiter != NULL)
 	{
-		here_doc_fd = open("in_heredoc.txt", O_RDWR | O_TRUNC | O_CREAT);
+		here_doc_fd = open("exec/in_heredoc.txt", O_RDWR | O_TRUNC | O_CREAT);
 		ft_get_input(node[0].delimiter, here_doc_fd, save);
 		close(here_doc_fd);
-		here_doc_fd = open("in_heredoc.txt", O_RDONLY);
+		here_doc_fd = open("exec/in_heredoc.txt", O_RDONLY);
 		dup2(here_doc_fd, STDIN_FILENO);
 		close(here_doc_fd);
 		return ;

@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:32:56 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 20:54:15 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:41:24 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_global
 	int		fix_nextfilein;
 	int		fix_redir_error;
 	char	*exit_code;
+	int		cmd_size;
 }	t_global;
 
 typedef struct s_pip
@@ -194,5 +195,6 @@ void		cd_back_noret(void);
 void		exec_echo(char	*cmd);
 int			exec_pwd(void);
 void		exec_exit(void);
+int			malloc_size(void);
 
 #endif

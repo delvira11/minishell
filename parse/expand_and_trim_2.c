@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:19:25 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/19 22:31:38 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:46:21 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*find_env_var(char	*str)
 	j = 0;
 	i = 0;
 	countdoll = 0;
-	env_var = ft_calloc(1000, sizeof(char));
+	env_var = ft_calloc(malloc_size(), sizeof(char));
 	while (str[i] != '$')
 		i++;
 	i++;
@@ -68,7 +68,7 @@ char	*expand_dollar(char *str)
 	t_counters			c;
 
 	c = init_counters();
-	norm.str_return = ft_calloc(5000, sizeof(char));
+	norm.str_return = ft_calloc(malloc_size(), sizeof(char));
 	norm.replace = find_replace(str);
 	while (str[c.i] != '\0')
 	{

@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 20:44:14 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 20:46:17 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:42:23 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	cd_back_redir(char **cmd)
 
 	i = 3;
 	j = 0;
-	next_path = ft_calloc(1000, sizeof(char));
+	next_path = ft_calloc(malloc_size(), sizeof(char));
 	prev_path = cd_back();
 	while (cmd[1][i] != '\0')
 	{
@@ -57,7 +57,7 @@ void	cd_folder(char **cmd)
 	c.i = 4;
 	c.x = 0;
 	c.k = 0;
-	pwd = ft_calloc(1000, sizeof(char));
+	pwd = ft_calloc(malloc_size(), sizeof(char));
 	while (g_var.env[c.x])
 	{
 		if (ft_strncmp(g_var.env[c.x], "PWD=", 4) == 0)
