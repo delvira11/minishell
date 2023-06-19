@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:28:15 by ide-albe          #+#    #+#             */
-/*   Updated: 2023/06/19 20:11:01 by ide-albe         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:49:03 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	exec_exit(char *cmd)
 	}
 	else
 	{
+		g_var.exit_code = "1";
 		printf("arguments error\n");
 	}
 }

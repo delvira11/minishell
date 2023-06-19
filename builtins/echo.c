@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 20:51:22 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 20:51:42 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:54:04 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ void	exec_echo(char	*cmd)
 		}
 		write(1, "\n", 1);
 	}
+	g_var.exit_code = "0";
 	free_string_array(split_cmd);
 }

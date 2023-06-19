@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 20:52:27 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 20:52:54 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:55:37 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	exec_pwd(void)
 	if (getcwd(cwd, 1000))
 	{
 		ft_putendl_fd(cwd, 1);
+		g_var.exit_code = "0";
 		return (1);
 	}
 	else
