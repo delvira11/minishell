@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:35:53 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 16:11:52 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:21:06 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ t_export	init_export_vars(char	*cmd)
 
 	exp.x = 0;
 	exp.var = ft_split(cmd, ' ');
-	exp.var_name_split = ft_split(exp.var[1], '=');
-	exp.varnameigual = ft_strjoin(exp.var_name_split[0], "=");
 	while (exp.var[exp.x])
 		exp.x++;
+	if (exp.x > 2 || exp.x <= 1)
+		return (exp);
+	exp.var_name_split = ft_split(exp.var[1], '=');
+	exp.varnameigual = ft_strjoin(exp.var_name_split[0], "=");
 	return (exp);
 }
 
@@ -43,9 +45,16 @@ void	exec_export(char	*cmd)
 	t_export	exp;
 
 	exp = init_export_vars(cmd);
-	if (exp.x > 2)
+	if (exp.x > 2 || exp.x <= 1)
 	{
-		free_utils_2(exp.var_name_split, exp.varnameigual, exp.var);
+		if (exp.x <= 1)
+		{
+			free (exp.var[0]);
+			free (exp.var);
+		}
+		else
+			free_utils_2(exp.var_name_split, exp.varnameigual, exp.var);
+		printf("export argument error\n");
 		return ;
 	}
 	exp.x = 0;

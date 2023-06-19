@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_builtin_func.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 19:33:05 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 21:11:44 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:49:27 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,6 @@ int	exec_builtins_env(char	*cmd)
 	if (ft_strncmp("unset ", cmd, 6) == 0)
 		exec_unset(cmd);
 	if (ft_strncmp("exit", cmd, 4) == 0)
-		exec_exit();
+		exec_exit(cmd);
 	return (0);
 }

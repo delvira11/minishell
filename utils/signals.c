@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:30:38 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 16:31:06 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:14:38 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,11 @@ void	control_c(int n)
 	rl_redisplay();
 }
 
-void	control_d(int n)
+void	control_barra(int n)
 {
-	n = SIGQUIT;
-	exit(0);
+	if (n == SIGQUIT)
+		(void)SIG_IGN;
+	rl_redisplay();
+	ft_putstr_fd("    ", 1);
+	ft_putstr_fd("\b\b  \b\b \b\b \b\b", 1);
 }

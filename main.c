@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:33:15 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/09 17:00:46 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:15:31 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int nargs, char **args __attribute__((unused)), char **env)
 	if (nargs != 1)
 		exit(0);
 	signal(SIGINT, control_c);
-	signal(SIGQUIT, control_d);
+	signal(SIGQUIT, control_barra);
 	g_var.env = init_env(env);
 	g_var.exit_code = "0";
 	create_exit_code();
@@ -34,6 +34,7 @@ int	main(int nargs, char **args __attribute__((unused)), char **env)
 			break ;
 		g_var.cmd_size = ft_strlen(cmd_line);
 		parse_function(cmd_line);
+		// system("leaks -q minishell");
 		free(cmd_line);
 		free(lastpath);
 	}

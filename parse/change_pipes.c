@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_pipes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 19:05:49 by ide-albe          #+#    #+#             */
-/*   Updated: 2023/06/09 16:07:38 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:32:11 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**change_pipes(char **linesplitted)
 			if (linesplitted[i][0] == '\"' || linesplitted[i][0] == '\'')
 				break ;
 			if (linesplitted[i][j] == '|')
-				linesplitted[i][j] = '~';
+				linesplitted[i][j] = '^';
 			j++;
 		}
 		i++;
@@ -64,6 +64,6 @@ char	**split_changed_pipes(char *str)
 {
 	char	**linesplitted;
 
-	linesplitted = ft_split(str, '~');
+	linesplitted = ft_split(str, '^');
 	return (linesplitted);
 }

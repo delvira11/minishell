@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:32:56 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/09 15:41:24 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:49:54 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void		exec_env(void);
 void		exec_export(char	*cmd);
 void		exec_unset(char	*cmd);
 void		exec_echo(char	*cmd);
-void		exec_exit(void);
+void		exec_exit(char *cmd);
 void		cd_back_noret(void);
 char		*ft_strjoin_free(char *s1, char const *s2);
 void		free_utils_1(char	**var, char	**var_name_split,
@@ -137,7 +137,7 @@ void		free_utils_2(char	**var_name_split, char	*varnameigual,
 				char	**var);
 void		exec_env(void);
 void		control_c(int n);
-void		control_d(int n);
+void		control_barra(int n);
 void		exec_unset(char	*cmd);
 void		create_exit_code(void);
 void		replace_exit_code(void);
@@ -194,7 +194,6 @@ t_counters	cd_back_noret_counters(void);
 void		cd_back_noret(void);
 void		exec_echo(char	*cmd);
 int			exec_pwd(void);
-void		exec_exit(void);
 int			malloc_size(void);
 
 #endif
