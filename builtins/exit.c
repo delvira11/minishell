@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:28:15 by ide-albe          #+#    #+#             */
-/*   Updated: 2023/06/19 20:49:03 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/20 19:30:52 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	exec_exit(char *cmd)
 	}
 	else if (i == 2)
 	{
-		while (cmd_splitted[1][i++])
+		while (cmd_splitted[1][j++])
 		{
-			if (cmd_splitted[1][i] > 57 || cmd_splitted[1][i] < 48)
+			if (cmd_splitted[1][j] > 57 || cmd_splitted[1][j] < 48)
 			{
 				printf("numeric argument required\n");
 				g_var.exit_code = "255";

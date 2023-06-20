@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:35:53 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/19 20:53:08 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:23:45 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ void	exec_export(char	*cmd)
 	{
 		if (exp.x <= 1)
 		{
+			exec_only_export();
 			free (exp.var[0]);
 			free (exp.var);
 		}
 		else
 			free_utils_2(exp.var_name_split, exp.varnameigual, exp.var);
-		printf("export argument error\n");
 		return ;
 	}
 	exp.x = 0;
@@ -74,4 +74,22 @@ void	exec_export(char	*cmd)
 		exp.x++;
 	}
 	norm_export_2(exp);
+}
+
+void	exec_only_export(void)
+{
+	int	x;
+
+	x = 0;
+	while (g_var.env[x])
+	{
+		if (ft_strncmp(g_var.env[x], "NULL", 4) != 0
+			&& ft_strncmp(g_var.env[x], "?=", 2) != 0)
+		{
+			printf("declare -x ");
+			printf("%s\n", g_var.env[x]);
+		}
+		x++;
+	}
+	g_var.exit_code = "0";
 }

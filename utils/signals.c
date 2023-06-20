@@ -6,7 +6,7 @@
 /*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:30:38 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/19 20:14:38 by ide-albe         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:58:41 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,4 @@ void	control_c(int n)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-}
-
-void	control_barra(int n)
-{
-	if (n == SIGQUIT)
-		(void)SIG_IGN;
-	rl_redisplay();
-	ft_putstr_fd("    ", 1);
-	ft_putstr_fd("\b\b  \b\b \b\b \b\b", 1);
 }

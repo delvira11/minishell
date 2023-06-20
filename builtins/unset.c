@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:32:51 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/19 20:51:58 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:16:26 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ void	exec_unset(char	*cmd)
 	{
 		free (var[0]);
 		free (var);
-		printf("arguments error");
-		g_var.exit_code = "1";
+		g_var.exit_code = "0";
 		return ;
 	}
 	var_name = ft_strjoin(var[1], "=");
@@ -46,3 +45,4 @@ void	exec_unset(char	*cmd)
 	free_string_array(var);
 	free(var_name);
 }
+
