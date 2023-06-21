@@ -6,7 +6,7 @@
 /*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 20:44:14 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/20 19:24:29 by ide-albe         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:54:03 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,10 @@ void	exec_cd(char *cmd)
 	{
 		if (chdir(home) >= 0)
 			change_env_var("PWD=", home);
+		free(new_cmd);
 	}
 	else if (new_cmd[0] && new_cmd[1])
 		cd_2args(new_cmd);
 	free(new_cmd[0]);
-	if (!new_cmd[1])
-		free(new_cmd);
 	free(home);
 }

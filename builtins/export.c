@@ -6,7 +6,7 @@
 /*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:35:53 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/20 17:23:45 by ide-albe         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:38:37 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,12 @@ void	exec_export(char	*cmd)
 			free (exp.var);
 		}
 		else
-			free_utils_2(exp.var_name_split, exp.varnameigual, exp.var);
+		{
+			// free_string_array(exp.var_name_split);
+			// free(exp.varnameigual);
+			free_string_array(exp.var);
+			// free_utils_2(exp.var_name_split, exp.varnameigual, exp.var);
+		}
 		return ;
 	}
 	exp.x = 0;

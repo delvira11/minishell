@@ -6,7 +6,7 @@
 /*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 18:28:15 by ide-albe          #+#    #+#             */
-/*   Updated: 2023/06/20 19:30:52 by ide-albe         ###   ########.fr       */
+/*   Updated: 2023/06/21 16:20:02 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@ void	exec_exit(char *cmd)
 	char	**cmd_splitted;
 
 	i = 0;
-	j = 0;
+	j = -1;
 	cmd_splitted = ft_split(cmd, ' ');
 	while (cmd_splitted[i])
 		i++;
 	if (i == 1)
 	{
-		exit(0);	
+		exit(0);
 	}
 	else if (i == 2)
 	{
-		while (cmd_splitted[1][j++])
+		while (cmd_splitted[1][++j])
 		{
-			if (cmd_splitted[1][j] > 57 || cmd_splitted[1][j] < 48)
+			if (cmd_splitted[1][j] > '9' || cmd_splitted[1][j] < '0')
 			{
-				printf("numeric argument required\n");
+				printf("numeric argument required\n");			
 				g_var.exit_code = "255";
 				return ;
 			}

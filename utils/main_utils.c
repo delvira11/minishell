@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 15:08:30 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/09 16:00:40 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:55:21 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,45 @@ char	*path(void)
 int	malloc_size(void)
 {
 	return (1000);
+}
+
+void	lvl_masuno(char *cmd_line)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	if (ft_strncmp(cmd_line, "./minishell", 11) == 0)
+	{
+		while (g_var.env[i])
+		{
+			if (ft_strncmp(g_var.env[i], "SHLVL=", 6) == 0)
+			{
+				j = ft_strlen(g_var.env[i]);
+				g_var.env[i][j - 1] = g_var.env[i][j - 1] + 1;
+			}
+			i++;
+		}
+	}
+}
+
+void	lvl_masuno_bash(char *cmd_line)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	if (ft_strncmp(cmd_line, "bash", 4) == 0)
+	{
+		while (g_var.env[i])
+		{
+			if (ft_strncmp(g_var.env[i], "SHLVL=", 6) == 0)
+			{
+				j = ft_strlen(g_var.env[i]);
+				g_var.env[i][j - 1] = g_var.env[i][j - 1] + 1;
+			}
+			i++;
+		}
+	}
 }

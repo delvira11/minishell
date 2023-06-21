@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quote_and _redir_errors.c                          :+:      :+:    :+:   */
+/*   quote_and_redir_errors.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:58:28 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 16:59:30 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:26:14 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	norm_quote_error(char	**linesplitted, int x, int i)
 		if (linesplitted[x][i - 1] != '\"' || (i - 1) == 0)
 		{
 			free_string_array(linesplitted);
-			write(1, "quote error", 12);
+			write(1, "quote error\n", 13);
 			return (-1);
 		}
 	}
@@ -32,7 +32,7 @@ int	norm_quote_error(char	**linesplitted, int x, int i)
 		if (linesplitted[x][i - 1] != '\'' || (i - 1) == 0)
 		{
 			free_string_array(linesplitted);
-			write(1, "quote error", 12);
+			write(1, "quote error\n", 13);
 			return (-1);
 		}
 	}

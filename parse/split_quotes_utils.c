@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_quotes_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 17:07:20 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/09 15:49:33 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:24:03 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char	*split_double_quotes(char *cmd_line, int i)
 	while (cmd_line[i] != '\"')
 	{
 		aux[j] = cmd_line[i];
+		if (cmd_line[i] == '\0')
+			return (aux);
 		i++;
 		j++;
 	}
@@ -60,6 +62,8 @@ char	*split_simple_quotes(char *cmd_line, int i)
 	while (cmd_line[i] != '\'')
 	{
 		aux[j] = cmd_line[i];
+		if (cmd_line[i] == '\0')
+			return (aux);
 		i++;
 		j++;
 	}

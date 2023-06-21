@@ -6,7 +6,7 @@
 /*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:34:07 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/20 17:58:28 by ide-albe         ###   ########.fr       */
+/*   Updated: 2023/06/20 21:09:49 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	child_process_2(t_node *node, t_pip var, char **splittedarg)
 	}
 	else
 	{
-	g_var.last_cmd_status = execve(ft_findpath(splittedarg[0], g_var.env),
+		g_var.last_cmd_status = execve(ft_findpath(splittedarg[0], g_var.env),
 				splittedarg, g_var.env);
 		if (g_var.last_cmd_status < 0)
 		{

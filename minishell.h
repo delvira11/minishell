@@ -6,7 +6,7 @@
 /*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:32:56 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/20 17:59:01 by ide-albe         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:57:34 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,5 +196,9 @@ void		exec_echo(char	*cmd);
 int			exec_pwd(void);
 int			malloc_size(void);
 void		exec_only_export(void);
+void		lvl_masuno(char *cmd_line);
+void		lvl_masuno_bash(char *cmd_line);
+void		shlvl_increase(char *cmd_line);
+void		signals(void);
 
 #endif

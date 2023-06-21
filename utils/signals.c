@@ -6,7 +6,7 @@
 /*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:30:38 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/20 17:58:41 by ide-albe         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:57:24 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,16 @@ void	control_c(int n)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+}
+
+void	shlvl_increase(char *cmd_line)
+{
+	lvl_masuno(cmd_line);
+	lvl_masuno_bash(cmd_line);
+}
+
+void	signals(void)
+{
+	signal(SIGINT, control_c);
+	signal(SIGQUIT, SIG_IGN);
 }

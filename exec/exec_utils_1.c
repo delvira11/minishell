@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 19:34:38 by delvira-          #+#    #+#             */
-/*   Updated: 2023/05/26 19:40:00 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:05:02 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char	*ft_findpath(char *cmd, char **envp)
 	int		x;
 	char	*str;
 	char	*path;
+	char	*path2;
 	char	**dir;
 
 	x = -1;
@@ -63,16 +64,25 @@ char	*ft_findpath(char *cmd, char **envp)
 		if (str != NULL)
 			break ;
 	}
-	dir = ft_split(&str[5], ':');
 	if (access(cmd, X_OK) == 0)
 		return (cmd);
+	if (!str)
+		return (NULL);
+	dir = ft_split(&str[5], ':');
+	path2 = ft_strjoin("/", cmd);
 	while (dir[++x])
 	{
-		path = ft_strjoin(dir[x], ft_strjoin("/", cmd));
+		path = ft_strjoin(dir[x], path2);
 		i = access(path, X_OK);
 		if (i == 0)
+		{
+			free(path);
 			return (path);
+		}
+		free(path);
 	}
+	free(path2);
+	free_string_array(dir);
 	return (NULL);
 }
 

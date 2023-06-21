@@ -6,11 +6,16 @@
 /*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:33:15 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/20 19:09:17 by ide-albe         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:57:11 by ide-albe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_leaks(void)
+{
+		system("leaks -q minishell");
+}
 
 int	main(int nargs, char **args __attribute__((unused)), char **env)
 {
@@ -19,10 +24,9 @@ int	main(int nargs, char **args __attribute__((unused)), char **env)
 
 	if (nargs != 1)
 		exit(0);
-	signal(SIGINT, control_c);
-	signal(SIGQUIT, SIG_IGN);
-	g_var.env = init_env(env);
 	g_var.exit_code = "0";
+	signals();
+	g_var.env = init_env(env);
 	create_exit_code();
 	while (1)
 	{
@@ -33,10 +37,11 @@ int	main(int nargs, char **args __attribute__((unused)), char **env)
 		if (cmd_line == NULL)
 			break ;
 		g_var.cmd_size = ft_strlen(cmd_line);
+		shlvl_increase(cmd_line);
 		parse_function(cmd_line);
-		system("leaks -q minishell");
 		free(cmd_line);
 		free(lastpath);
 	}
-	return (0);
+	free(lastpath);
+	return (ft_atoi(g_var.exit_code));
 }
