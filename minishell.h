@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:32:56 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/21 17:57:34 by ide-albe         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:06:42 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,16 @@ typedef struct s_pip
 	int		save;
 	int		max_nodes;
 }	t_pip;
+
+typedef struct s_path_var
+{
+	char		*str;
+	char		*path;
+	char		*path2;
+	char		**dir;
+	int			i;
+	int			x;
+}	t_path_var;
 
 typedef struct s_export
 {
@@ -200,5 +210,9 @@ void		lvl_masuno(char *cmd_line);
 void		lvl_masuno_bash(char *cmd_line);
 void		shlvl_increase(char *cmd_line);
 void		signals(void);
+void		norm_export_1(t_export exp);
+void		norm_export_2(t_export exp);
+void		norm_export(t_export exp);
+void		free_cmd_splitted(char	**split);
 
 #endif

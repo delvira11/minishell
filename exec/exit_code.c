@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:34:22 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/09 15:45:35 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:06:36 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,17 @@ void	replace_exit_code(void)
 			g_var.env[x] = str;
 		}
 	}
+}
+
+void	free_cmd_splitted(char	**split)
+{
+	int	x;
+
+	x = 0;
+	while (split[x])
+	{
+		free(split[x]);
+		x++;
+	}
+	free(split);
 }

@@ -67,7 +67,7 @@ char	*path(void)
 
 int	malloc_size(void)
 {
-	return (1000);
+	return (1000 + g_var.cmd_size);
 }
 
 void	lvl_masuno(char *cmd_line)

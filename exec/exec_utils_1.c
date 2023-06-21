@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 19:34:38 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/21 17:05:02 by ide-albe         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:06:17 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,54 +47,46 @@ char	*ft_get_input(char *limit, int fd1, int save)
 	return (line);
 }
 
+void	free_utils_path(t_path_var c)
+{
+	free(c.path2);
+	free_string_array(c.dir);
+}
+
+t_path_var	free_utils_path_2(void)
+{
+	t_path_var	c;
+
+	c.x = -1;
+	c.i = -1;
+	return (c);
+}
+
 char	*ft_findpath(char *cmd, char **envp)
 {
-	int		i;
-	int		x;
-	char	*str;
-	char	*path;
-	char	*path2;
-	char	**dir;
+	t_path_var	c;
 
-	x = -1;
-	i = -1;
-	while (envp[++i])
+	c = free_utils_path_2();
+	while (envp[++c.i])
 	{
-		str = ft_strnstr(envp[i], "PATH=", 7);
-		if (str != NULL)
+		c.str = ft_strnstr(envp[c.i], "PATH=", 7);
+		if (c.str != NULL)
 			break ;
 	}
 	if (access(cmd, X_OK) == 0)
 		return (cmd);
-	if (!str)
+	if (!c.str)
 		return (NULL);
-	dir = ft_split(&str[5], ':');
-	path2 = ft_strjoin("/", cmd);
-	while (dir[++x])
+	c.dir = ft_split(&c.str[5], ':');
+	c.path2 = ft_strjoin("/", cmd);
+	while (c.dir[++c.x])
 	{
-		path = ft_strjoin(dir[x], path2);
-		i = access(path, X_OK);
-		if (i == 0)
-		{
-			free(path);
-			return (path);
-		}
-		free(path);
+		c.path = ft_strjoin(c.dir[c.x], c.path2);
+		c.i = access(c.path, X_OK);
+		if (c.i == 0)
+			return (c.path);
+		free(c.path);
 	}
-	free(path2);
-	free_string_array(dir);
+	free_utils_path(c);
 	return (NULL);
-}
-
-void	free_cmd_splitted(char	**split)
-{
-	int	x;
-
-	x = 0;
-	while (split[x])
-	{
-		free(split[x]);
-		x++;
-	}
-	free(split);
 }

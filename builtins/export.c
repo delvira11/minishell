@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:35:53 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/21 17:38:37 by ide-albe         ###   ########.fr       */
+/*   Updated: 2023/06/21 20:51:19 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,18 @@ t_export	init_export_vars(char	*cmd)
 	return (exp);
 }
 
-void	norm_export_1(t_export exp)
+void	norm_export_free(t_export exp)
 {
-	free(g_var.env[exp.x]);
-	g_var.env[exp.x] = exp.var[1];
-	free_utils_1(exp.var, exp.var_name_split, exp.varnameigual);
+	printf("too many arguments\n");
+	free_string_array(exp.var);
 }
 
-void	norm_export_2(t_export exp)
+void	norm_dela_norm(t_export exp)
 {
-	g_var.env[exp.x] = exp.var[1];
-	free_utils_1(exp.var, exp.var_name_split, exp.varnameigual);
+	if (exp.x <= 1)
+		norm_export(exp);
+	else
+		norm_export_free(exp);
 }
 
 void	exec_export(char	*cmd)
@@ -47,19 +48,7 @@ void	exec_export(char	*cmd)
 	exp = init_export_vars(cmd);
 	if (exp.x > 2 || exp.x <= 1)
 	{
-		if (exp.x <= 1)
-		{
-			exec_only_export();
-			free (exp.var[0]);
-			free (exp.var);
-		}
-		else
-		{
-			// free_string_array(exp.var_name_split);
-			// free(exp.varnameigual);
-			free_string_array(exp.var);
-			// free_utils_2(exp.var_name_split, exp.varnameigual, exp.var);
-		}
+		norm_dela_norm(exp);
 		return ;
 	}
 	exp.x = 0;

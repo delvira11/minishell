@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:33:15 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/21 17:57:11 by ide-albe         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:06:58 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_leaks(void)
 {
-		system("leaks -q minishell");
+	system("leaks -q minishell");
 }
 
 int	main(int nargs, char **args __attribute__((unused)), char **env)
