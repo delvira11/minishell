@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-albe <ide-albe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:20:20 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/21 17:11:23 by ide-albe         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:26:35 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,36 @@ void	free_nodes(t_node *node)
 	free(node);
 }
 
+void	parser_free(char	**linesplitted, char	*single_str, t_node	*node)
+{
+	free_string_array(linesplitted);
+	free(single_str);
+	free_nodes(node);
+}
+
+void	printf_and_free(char	**linesplitted)
+{
+	printf("redir error\n");
+	free_string_array(linesplitted);
+}
+
 void	parse_function(char *cmd_line)
 {
 	char	**linesplitted;
 	char	*single_str;
 	t_node	*node;
 
+	if (g_var.cmd_size > 1000)
+	{
+		printf("line too long\n");
+		return ;
+	}
 	linesplitted = split_quotes(cmd_line);
 	if (check_quote_error(linesplitted) < 0)
 		return ;
 	if (check_redir_errors(linesplitted) < 0)
 	{
-		printf("redir error\n");
-		free_string_array(linesplitted);
+		printf_and_free(linesplitted);
 		return ;
 	}
 	linesplitted = expand_and_trim(linesplitted);
@@ -56,7 +73,5 @@ void	parse_function(char *cmd_line)
 	linesplitted = split_changed_pipes(single_str);
 	node = fill_list(linesplitted);
 	exec_pipex(node);
-	free_string_array(linesplitted);
-	free(single_str);
-	free_nodes(node);
+	parser_free(linesplitted, single_str, node);
 }
