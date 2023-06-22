@@ -6,7 +6,7 @@
 /*   By: delvira- <delvira-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 16:32:51 by delvira-          #+#    #+#             */
-/*   Updated: 2023/06/21 20:47:05 by delvira-         ###   ########.fr       */
+/*   Updated: 2023/06/22 17:40:12 by delvira-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	unset_norm_2(char **var)
 	free(var[0]);
 	free(var);
 	g_var.exit_code = "0";
-	printf("too many arguments\n");
+	printf("arguments error\n");
 }
 
 void	exec_unset(char *cmd)
